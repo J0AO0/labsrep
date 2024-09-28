@@ -189,14 +189,14 @@ public class Usuario implements Serializable {
         }
 
     }
-    private void classePermissaoFlatCategoria(PermissaoFront pf) {
-        if (pf.getPermission().getCreate()) {	Permissao c  = new Permissao(37,"C_PAT");this.permissoes.add(c);};
-        if (pf.getPermission().getUpdate()) {	Permissao u  = new Permissao(38,"U_PAT");this.permissoes.add(u);};
-        if (pf.getPermission().getDelete()) {	Permissao d  = new Permissao(39,"D_PAT");this.permissoes.add(d);};
-        if (pf.getPermission().getRead())   {	Permissao r  = new Permissao(40,"R_PAT");this.permissoes.add(r);};
-        if (pf.getPermission().getStatus()) {	Permissao s  = new Permissao(41,"S_PAT");this.permissoes.add(s);};
-
-    }
+//    private void classePermissaoFlatCategoria(PermissaoFront pf) {
+//        if (pf.getPermission().getCreate()) {	Permissao c  = new Permissao(37,"C_PAT");this.permissoes.add(c);};
+//        if (pf.getPermission().getUpdate()) {	Permissao u  = new Permissao(38,"U_PAT");this.permissoes.add(u);};
+//        if (pf.getPermission().getDelete()) {	Permissao d  = new Permissao(39,"D_PAT");this.permissoes.add(d);};
+//        if (pf.getPermission().getRead())   {	Permissao r  = new Permissao(40,"R_PAT");this.permissoes.add(r);};
+//        if (pf.getPermission().getStatus()) {	Permissao s  = new Permissao(41,"S_PAT");this.permissoes.add(s);};
+//
+//    }
 
     private void classePermissaoFlatEmpresa(PermissaoFront pf) {
         if (pf.getPermission().getCreate()) {	Permissao c  = new Permissao(32,"C_EMP");this.permissoes.add(c);};
@@ -207,32 +207,32 @@ public class Usuario implements Serializable {
 
     }
 
-    private void classePermissaoFlatCliente(PermissaoFront pf) {
+//    private void classePermissaoFlatCliente(PermissaoFront pf) {
+//
+//        if (pf.getPermission().getCreate()) {	Permissao c  = new Permissao(1,"C_ATEND");this.permissoes.add(c);};
+//        if (pf.getPermission().getUpdate()) {	Permissao u  = new Permissao(2,"U_ATEND");this.permissoes.add(u);};
+//        if (pf.getPermission().getDelete()) {	Permissao d  = new Permissao(3,"D_ATEND");this.permissoes.add(d);};
+//        if (pf.getPermission().getRead())   {	Permissao r  = new Permissao(4,"R_ATEND");this.permissoes.add(r);};
+//        if (pf.getPermission().getStatus()) {	Permissao s  = new Permissao(5,"S_ATEND");this.permissoes.add(s);};
+//    }
 
-        if (pf.getPermission().getCreate()) {	Permissao c  = new Permissao(1,"C_ATEND");this.permissoes.add(c);};
-        if (pf.getPermission().getUpdate()) {	Permissao u  = new Permissao(2,"U_ATEND");this.permissoes.add(u);};
-        if (pf.getPermission().getDelete()) {	Permissao d  = new Permissao(3,"D_ATEND");this.permissoes.add(d);};
-        if (pf.getPermission().getRead())   {	Permissao r  = new Permissao(4,"R_ATEND");this.permissoes.add(r);};
-        if (pf.getPermission().getStatus()) {	Permissao s  = new Permissao(5,"S_ATEND");this.permissoes.add(s);};
-    }
+//    private void classePermissaoFlatPedido(PermissaoFront pf) {
+//        if (pf.getPermission().getCreate()) {	Permissao c  = new Permissao(6,"C_CONV");this.permissoes.add(c);};
+//        if (pf.getPermission().getUpdate()) {	Permissao u  = new Permissao(7,"U_CONV");this.permissoes.add(u);};
+//        if (pf.getPermission().getDelete()) {	Permissao d  = new Permissao(8,"D_CONV");this.permissoes.add(d);};
+//        if (pf.getPermission().getRead())   {	Permissao r  = new Permissao(9,"R_CONV");this.permissoes.add(r);};
+//        if (pf.getPermission().getStatus()) {	Permissao s  = new Permissao(10,"S_CONV");this.permissoes.add(s);};
+//
+//    }
 
-    private void classePermissaoFlatPedido(PermissaoFront pf) {
-        if (pf.getPermission().getCreate()) {	Permissao c  = new Permissao(6,"C_CONV");this.permissoes.add(c);};
-        if (pf.getPermission().getUpdate()) {	Permissao u  = new Permissao(7,"U_CONV");this.permissoes.add(u);};
-        if (pf.getPermission().getDelete()) {	Permissao d  = new Permissao(8,"D_CONV");this.permissoes.add(d);};
-        if (pf.getPermission().getRead())   {	Permissao r  = new Permissao(9,"R_CONV");this.permissoes.add(r);};
-        if (pf.getPermission().getStatus()) {	Permissao s  = new Permissao(10,"S_CONV");this.permissoes.add(s);};
-
-    }
-
-    private void classePermissaoFlatProduto(PermissaoFront pf) {
-
-        if (pf.getPermission().getCreate()) {	Permissao c  = new Permissao(11,"C_EXME");this.permissoes.add(c);};
-        if (pf.getPermission().getUpdate()) {	Permissao u  = new Permissao(12,"U_EXME");this.permissoes.add(u);};
-        if (pf.getPermission().getDelete()) {	Permissao d  = new Permissao(13,"D_EXME");this.permissoes.add(d);};
-        if (pf.getPermission().getRead())   {	Permissao r  = new Permissao(14,"R_EXME");this.permissoes.add(r);};
-        if (pf.getPermission().getStatus()) {	Permissao s  = new Permissao(15,"S_EXME");this.permissoes.add(s);};
-    }
+//    private void classePermissaoFlatProduto(PermissaoFront pf) {
+//
+//        if (pf.getPermission().getCreate()) {	Permissao c  = new Permissao(11,"C_EXME");this.permissoes.add(c);};
+//        if (pf.getPermission().getUpdate()) {	Permissao u  = new Permissao(12,"U_EXME");this.permissoes.add(u);};
+//        if (pf.getPermission().getDelete()) {	Permissao d  = new Permissao(13,"D_EXME");this.permissoes.add(d);};
+//        if (pf.getPermission().getRead())   {	Permissao r  = new Permissao(14,"R_EXME");this.permissoes.add(r);};
+//        if (pf.getPermission().getStatus()) {	Permissao s  = new Permissao(15,"S_EXME");this.permissoes.add(s);};
+//    }
 
     private void classePermissaoFlatUsuario(PermissaoFront pf) {
 
