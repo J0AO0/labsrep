@@ -1,24 +1,24 @@
 package com.mei.vendasapi.service;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.transaction.Transactional;
-
+import com.mei.vendasapi.domain.Empresa;
+import com.mei.vendasapi.domain.Cliente;
+import com.mei.vendasapi.domain.Empresa;
+import com.mei.vendasapi.domain.dto.ClienteDTO;
+import com.mei.vendasapi.domain.dto.ClienteNewDTO;
+import com.mei.vendasapi.domain.dto.EmpresaDTO;
+import com.mei.vendasapi.domain.dto.EmpresaNewDTO;
+import com.mei.vendasapi.repository.ClienteRepository;
+import com.mei.vendasapi.repository.EmpresaRepository;
+import com.mei.vendasapi.service.exception.EntidadeNaoEncontradaExcepition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mei.vendasapi.domain.Empresa;
-import com.mei.vendasapi.domain.dto.EmpresaDTO;
-import com.mei.vendasapi.domain.dto.EmpresaNewDTO;
-import com.mei.vendasapi.domain.dto.flat.EmpresaFlat;
-import com.mei.vendasapi.repository.EmpresaRepository;
-import com.mei.vendasapi.service.exception.EntidadeNaoEncontradaExcepition;
-import com.mei.vendasapi.service.util.Tenantuser;
+import javax.transaction.Transactional;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/empresa")
@@ -26,11 +26,6 @@ public class EmpresaService {
 
     @Autowired
     private EmpresaRepository repo;
-    
-    
-    @Autowired
-	private Tenantuser tenantUsuario;
-
 
     public Page<Empresa> findAll(Pageable pageable) {
         return repo.findAll(pageable);
@@ -88,16 +83,4 @@ public class EmpresaService {
         empresa.setStatus(obj);
 
     }
-    
-	public List<EmpresaFlat> findAllUsuario() {
-		List<Empresa> empresas = repo.findAllSqlEmpUsuario(tenantUsuario.buscarUsuario().getId());
-		List<EmpresaFlat> empresasF = new ArrayList<EmpresaFlat>();
-		for (Empresa emp : empresas) {
-			EmpresaFlat empFlat = new EmpresaFlat(emp);
-			empresasF.add(empFlat);
-		}
-
-		return empresasF;
-	}
-    
 }

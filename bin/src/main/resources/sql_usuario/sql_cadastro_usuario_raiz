@@ -1,2 +1,0 @@
-INSERT INTO usuario (id, email, gtenantativo, login, nome, senha, status, telefone, tenantativo)
-VALUES (1, 'admin@admin.com', NULL, 'RAIZ', NULL, '$2a$10$ym4FHvnOCErbHb49jq8FzekqTSYTAsqhDX4ntJ00XC0h8Iganq0Nm', 1, '1', 0);

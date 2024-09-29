@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/permissoes")
-
+@ApiIgnore
 public class ClassepermissaoResource {
 
     @Autowired
