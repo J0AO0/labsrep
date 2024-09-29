@@ -177,10 +177,9 @@ public class Usuario implements Serializable {
     private void transformarPermisaoFlat(List<PermissaoFront> permissoes2) {
         for (PermissaoFront pf : permissoes2) {
             switch (pf.getNome()) {
-//                case "Categoria":classePermissaoFlatCategoria(pf);break;
-//                case "Cliente":classePermissaoFlatCliente(pf);	break;
-//                case "Pedido":classePermissaoFlatPedido(pf);break;
-//                case "Produto":classePermissaoFlatProduto(pf);break;
+                case "Categoria":classePermissaoFlatCategoria(pf);break;
+                case "Pedido":classePermissaoFlatPedido(pf);break;
+                case "Produto":classePermissaoFlatProduto(pf);break;
                 case "Usuario":classePermissaoFlatUsuario(pf);	break;
 //                case "Relatório":classePermissaoFlatRelatorio(pf);break;
                 case "Empresa":classePermissaoFlatEmpresa(pf);	break;
@@ -190,48 +189,39 @@ public class Usuario implements Serializable {
 
     }
     private void classePermissaoFlatCategoria(PermissaoFront pf) {
-        if (pf.getPermission().getCreate()) {	Permissao c  = new Permissao(37,"C_PAT");this.permissoes.add(c);};
-        if (pf.getPermission().getUpdate()) {	Permissao u  = new Permissao(38,"U_PAT");this.permissoes.add(u);};
-        if (pf.getPermission().getDelete()) {	Permissao d  = new Permissao(39,"D_PAT");this.permissoes.add(d);};
-        if (pf.getPermission().getRead())   {	Permissao r  = new Permissao(40,"R_PAT");this.permissoes.add(r);};
-        if (pf.getPermission().getStatus()) {	Permissao s  = new Permissao(41,"S_PAT");this.permissoes.add(s);};
+        if (pf.getPermission().getCreate()) {	Permissao c  = new Permissao(37,"C_CAT");this.permissoes.add(c);};
+        if (pf.getPermission().getUpdate()) {	Permissao u  = new Permissao(38,"U_CAT");this.permissoes.add(u);};
+        if (pf.getPermission().getDelete()) {	Permissao d  = new Permissao(39,"D_CAT");this.permissoes.add(d);};
+        if (pf.getPermission().getRead())   {	Permissao r  = new Permissao(40,"R_CAT");this.permissoes.add(r);};
+        if (pf.getPermission().getStatus()) {	Permissao s  = new Permissao(41,"S_CAT");this.permissoes.add(s);};
 
     }
 
     private void classePermissaoFlatEmpresa(PermissaoFront pf) {
         if (pf.getPermission().getCreate()) {	Permissao c  = new Permissao(32,"C_EMP");this.permissoes.add(c);};
         if (pf.getPermission().getUpdate()) {	Permissao u  = new Permissao(33,"U_EMP");this.permissoes.add(u);};
-        if (pf.getPermission().getDelete()) {	Permissao d  = new Permissao(34,"D_EMPD");this.permissoes.add(d);};
+        if (pf.getPermission().getDelete()) {	Permissao d  = new Permissao(34,"D_EMP");this.permissoes.add(d);};
         if (pf.getPermission().getRead())   {	Permissao r  = new Permissao(35,"R_EMP");this.permissoes.add(r);};
         if (pf.getPermission().getStatus()) {	Permissao s  = new Permissao(36,"S_EMP");this.permissoes.add(s);};
 
     }
 
-    private void classePermissaoFlatCliente(PermissaoFront pf) {
-
-        if (pf.getPermission().getCreate()) {	Permissao c  = new Permissao(1,"C_ATEND");this.permissoes.add(c);};
-        if (pf.getPermission().getUpdate()) {	Permissao u  = new Permissao(2,"U_ATEND");this.permissoes.add(u);};
-        if (pf.getPermission().getDelete()) {	Permissao d  = new Permissao(3,"D_ATEND");this.permissoes.add(d);};
-        if (pf.getPermission().getRead())   {	Permissao r  = new Permissao(4,"R_ATEND");this.permissoes.add(r);};
-        if (pf.getPermission().getStatus()) {	Permissao s  = new Permissao(5,"S_ATEND");this.permissoes.add(s);};
-    }
-
     private void classePermissaoFlatPedido(PermissaoFront pf) {
-        if (pf.getPermission().getCreate()) {	Permissao c  = new Permissao(6,"C_CONV");this.permissoes.add(c);};
-        if (pf.getPermission().getUpdate()) {	Permissao u  = new Permissao(7,"U_CONV");this.permissoes.add(u);};
-        if (pf.getPermission().getDelete()) {	Permissao d  = new Permissao(8,"D_CONV");this.permissoes.add(d);};
-        if (pf.getPermission().getRead())   {	Permissao r  = new Permissao(9,"R_CONV");this.permissoes.add(r);};
-        if (pf.getPermission().getStatus()) {	Permissao s  = new Permissao(10,"S_CONV");this.permissoes.add(s);};
+        if (pf.getPermission().getCreate()) {	Permissao c  = new Permissao(6,"C_PED");this.permissoes.add(c);};
+        if (pf.getPermission().getUpdate()) {	Permissao u  = new Permissao(7,"U_PED");this.permissoes.add(u);};
+        if (pf.getPermission().getDelete()) {	Permissao d  = new Permissao(8,"D_PED");this.permissoes.add(d);};
+        if (pf.getPermission().getRead())   {	Permissao r  = new Permissao(9,"R_PED");this.permissoes.add(r);};
+        if (pf.getPermission().getStatus()) {	Permissao s  = new Permissao(10,"S_PED");this.permissoes.add(s);};
 
     }
 
     private void classePermissaoFlatProduto(PermissaoFront pf) {
 
-        if (pf.getPermission().getCreate()) {	Permissao c  = new Permissao(11,"C_EXME");this.permissoes.add(c);};
-        if (pf.getPermission().getUpdate()) {	Permissao u  = new Permissao(12,"U_EXME");this.permissoes.add(u);};
-        if (pf.getPermission().getDelete()) {	Permissao d  = new Permissao(13,"D_EXME");this.permissoes.add(d);};
-        if (pf.getPermission().getRead())   {	Permissao r  = new Permissao(14,"R_EXME");this.permissoes.add(r);};
-        if (pf.getPermission().getStatus()) {	Permissao s  = new Permissao(15,"S_EXME");this.permissoes.add(s);};
+        if (pf.getPermission().getCreate()) {	Permissao c  = new Permissao(11,"C_PROD");this.permissoes.add(c);};
+        if (pf.getPermission().getUpdate()) {	Permissao u  = new Permissao(12,"U_PROD");this.permissoes.add(u);};
+        if (pf.getPermission().getDelete()) {	Permissao d  = new Permissao(13,"D_PROD");this.permissoes.add(d);};
+        if (pf.getPermission().getRead())   {	Permissao r  = new Permissao(14,"R_PROD");this.permissoes.add(r);};
+        if (pf.getPermission().getStatus()) {	Permissao s  = new Permissao(15,"S_PROD");this.permissoes.add(s);};
     }
 
     private void classePermissaoFlatUsuario(PermissaoFront pf) {

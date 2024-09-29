@@ -79,6 +79,7 @@ public class ClassePermissaoFlat {
         this.nome = objPorCategoria.getNome();
 
         switch(objPorCategoria.getNome()) {
+<<<<<<< HEAD
             case "Usuario": classePermissaoFlatItem(objPorCategoria, permissoes); break;
             case "Empresa": classePermissaoFlatProduto(objPorCategoria, permissoes); break;
 //            case "Convênio": classePermissaoFlatPedido(objPorCategoria, permissoes); break;
@@ -86,6 +87,15 @@ public class ClassePermissaoFlat {
 //            case "Usuario": classePermissaoFlatUsuario(objPorCategoria, permissoes); break;
 //            case "Relatório": classePermissaoFlatRelatorio(objPorCategoria, permissoes); break;
 //            case "EmpresaFlat": classePermissaoFlatEmpresa(objPorCategoria, permissoes); break;
+=======
+//            case "Atendimento": classePermissaoFlatItem(objPorCategoria, permissoes); break;
+//            case "Exame": classePermissaoFlatProduto(objPorCategoria, permissoes); break;
+//            case "Convênio": classePermissaoFlatPedido(objPorCategoria, permissoes); break;
+//            case "Paciente": classePermissaoFlatCliente(objPorCategoria, permissoes); break;
+            case "Usuario": classePermissaoFlatUsuario(objPorCategoria, permissoes); break;
+//            case "Relatório": classePermissaoFlatRelatorio(objPorCategoria, permissoes); break;
+            case "Empresa": classePermissaoFlatEmpresa(objPorCategoria, permissoes); break;
+>>>>>>> 80101dd4cb0a9e95f1c3f79d969e48db9bd2d052
 //            case "Cateogoria": classePermissaoFlatCategoria(objPorCategoria, permissoes); break;
 
         }

@@ -97,4 +97,62 @@ public @interface CheckSecurity {
 
     }
 
+    public @interface Empresa {
+
+        @PreAuthorize("hasAuthority('C_EMP')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeCadastrar {}
+
+        @PreAuthorize("hasAuthority('D_EMP')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeExcluir {}
+
+        @PreAuthorize("hasAuthority('U_EMP')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeAtualizar {}
+
+        @PreAuthorize("hasAuthority('R_EMP')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeConsultar {}
+
+        @PreAuthorize("hasAuthority('S_EMP')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeAlterarStatus {}
+
+    }
+
+    public @interface Categoria {
+
+        @PreAuthorize("hasAuthority('C_CAT')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeCadastrar {}
+
+        @PreAuthorize("hasAuthority('D_CAT')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeExcluir {}
+
+        @PreAuthorize("hasAuthority('U_CAT')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeAtualizar {}
+
+        @PreAuthorize("hasAuthority('R_CAT')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeConsultar {}
+
+        @PreAuthorize("hasAuthority('S_CAT')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeAlterarStatus {}
+
+    }
+
 }
