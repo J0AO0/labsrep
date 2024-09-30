@@ -24,7 +24,7 @@ import com.mei.vendasapi.domain.dto.flat.EmpresaFlat;
 import com.mei.vendasapi.service.EmpresaService;
 
 @RestController
-@RequestMapping("/empresa")
+@RequestMapping("/empresas")
 public class EmpresaResource {
 
     @Autowired

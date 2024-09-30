@@ -21,7 +21,7 @@ import com.mei.vendasapi.service.exception.EntidadeNaoEncontradaExcepition;
 import com.mei.vendasapi.service.util.Tenantuser;
 
 @RestController
-@RequestMapping(value = "/empresa")
+@RequestMapping(value = "/empresas")
 public class EmpresaService {
 
     @Autowired
