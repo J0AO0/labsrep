@@ -66,4 +66,13 @@ public class CategoriaFlat {
         this.datagravacao = cat.getLogs().getDatagravacao();
         this.emailusuario = cat.getLogs().getEmailUsuario();
     }
+
+    public CategoriaFlat(Categoria cat) {
+        this.id = cat.getId();
+        this.nome = cat.getNome();
+        this.status = cat.getStatus();
+        this.datagravacao = cat.getLogs().getDatagravacao();
+        this.emailusuario = cat.getLogs().getEmailUsuario();
+    }
+
 }

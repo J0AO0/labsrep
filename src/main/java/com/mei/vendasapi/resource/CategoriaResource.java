@@ -3,16 +3,16 @@ package com.mei.vendasapi.resource;
 import java.net.URI;
 import java.util.List;
 
+import com.mei.vendasapi.domain.dto.flat.CategoriaFlat;
+import com.mei.vendasapi.repository.CategoriaRepository;
+import com.mei.vendasapi.repository.filter.CategoriaFilter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.mei.vendasapi.domain.Categoria;
@@ -31,6 +31,9 @@ public class CategoriaResource {
 	
 	@Autowired
 	private ModelMapper modelMapper;
+
+	@Autowired
+	private CategoriaRepository catRepo;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<?> lista() {
@@ -46,7 +49,18 @@ public class CategoriaResource {
 		Categoria obj = categoriaService.buscarOuFalhar(id);
 		return ResponseEntity.ok(obj);
 	}
-	
+
+
+	@RequestMapping(value = "/page", method = RequestMethod.GET)
+	public ResponseEntity<Page<Categoria>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
+												   @RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
+												   @RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
+												   @RequestParam(value = "direction", defaultValue = "ASC") String direction) {
+		Page<Categoria> list = categoriaService.findPage(page, linesPerPage, orderBy, direction);
+		return ResponseEntity.ok().body(list);
+	}
+
+
 	
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Categoria> criarCategoria(@Valid @RequestBody CategoriaNewDTO objNewDTO) {
@@ -81,6 +95,13 @@ public class CategoriaResource {
 		categoriaService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
-	
-	
+
+	@RequestMapping(value = "/filtro", method = RequestMethod.GET)
+	public Page<CategoriaFlat> findAllPag(CategoriaFilter pacienteFilter, Pageable pageable) {
+
+		Page<Categoria> cats = catRepo.filtrar(pacienteFilter, pageable);
+		Page<CategoriaFlat> catsflat = categoriaService.mudarCategoriaParaFlat(cats);
+		return catsflat;
+
+	}
 }

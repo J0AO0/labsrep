@@ -1,13 +1,18 @@
 package com.mei.vendasapi.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
+import com.mei.vendasapi.domain.dto.flat.CategoriaFlat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.mei.vendasapi.domain.Categoria;
@@ -42,6 +47,11 @@ public class CategoriaService {
         
         
         return cat;
+    }
+
+    public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+        return repo.findAll(pageRequest);
     }
 
     @Transactional
@@ -89,8 +99,19 @@ public class CategoriaService {
 	categoria.setStatus(obj);
 		
 	}
-	
-	
+
+    public Page<CategoriaFlat> mudarCategoriaParaFlat(Page<Categoria> pacs) {
+        List<CategoriaFlat> cFlats = new ArrayList<CategoriaFlat>();
+        for (Categoria c : pacs.getContent()) {
+            CategoriaFlat cFlat = new CategoriaFlat(c);
+            cFlats.add(cFlat);
+
+        }
+        Page<CategoriaFlat> page = new PageImpl<>(cFlats, pacs.getPageable(),
+                pacs.getTotalElements());
+
+        return page;
+    }
 
 	private void logCategoria(Categoria obj, String string) {
 		LogSistema logsistema = log.insert(obj, string);
