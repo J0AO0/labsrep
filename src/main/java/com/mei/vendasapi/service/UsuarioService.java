@@ -67,6 +67,7 @@ public class UsuarioService {
 
 
         UsuarioDTO usuDto = new UsuarioDTO(usu);
+        System.out.println(emp1 + " Empresa");
         usuDto.setEmpresaativa(emp1.getRazaosocial());
         usuDto.setIdEmpresaativa(emp1.getId());
         if (usu.getTenantativo() == 1) {
