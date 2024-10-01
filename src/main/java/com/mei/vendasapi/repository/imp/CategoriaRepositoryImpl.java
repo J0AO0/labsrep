@@ -39,14 +39,13 @@ public class CategoriaRepositoryImpl implements CategoriaRepositoryQuery {
         CriteriaQuery<Categoria> criteria = builder.createQuery(Categoria.class);
         Root<Categoria> root = criteria.from(Categoria.class);
         From<?, ?> logJoin = root.join("logs", JoinType.LEFT);
-        From<?, ?> categoriaJoin = root.join("categoria", JoinType.INNER);
         criteria.distinct(true);
         List<Order> orderList = new ArrayList();
         orderList.add(builder.desc(root.get("id")));
         criteria.orderBy(orderList);
 
 
-        Predicate[] predicates = criarRestricoes(categoriaFilter, builder, root, logJoin,categoriaJoin );
+        Predicate[] predicates = criarRestricoes(categoriaFilter, builder, root, logJoin);
         criteria.where(predicates);
 
         TypedQuery<Categoria> query = manager.createQuery(criteria);
@@ -58,7 +57,7 @@ public class CategoriaRepositoryImpl implements CategoriaRepositoryQuery {
     }
 
     private Predicate[] criarRestricoes(CategoriaFilter categoriaFilter, CriteriaBuilder builder, Root<Categoria> root,
-                                        From<?, ?> logJoin, From<?, ?> categoriaJoin) {
+                                        From<?, ?> logJoin) {
         List<Predicate> predicates = new ArrayList<>();
         Tenant t = tenantUsuario.buscarOuFalhar();
         predicates.add(builder.equal(builder.lower(root.get("tenant")), t));
@@ -78,10 +77,12 @@ public class CategoriaRepositoryImpl implements CategoriaRepositoryQuery {
                     builder.like(builder.lower(root.get("nome")), "%" + categoriaFilter.getNome() + "%"));
         }
 
-        if (categoriaFilter.getStatus().equals("Ativos")) {
-            predicates.add(builder.equal(builder.lower(root.get("status")), true));
-        } else {
-            predicates.add(builder.equal(builder.lower(root.get("status")), false));
+        if (categoriaFilter.getStatus() != null) {
+            if (categoriaFilter.getStatus()) {
+                predicates.add(builder.equal(root.get("status"), true));
+            } else {
+                predicates.add(builder.equal(root.get("status"), false));
+            }
         }
 
         if (categoriaFilter.getDatagravacaode() != null) {
