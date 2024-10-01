@@ -66,6 +66,7 @@ public interface EmpresaRepository extends JpaRepository<Empresa, Integer> {
     List<Empresa> findAllInativos();
     @Query(value= "select * from empresa where status = 1 order by id desc", nativeQuery = true)
     List<Empresa> findAllAtivas();
+    
     @Query(value= "select * from empresa where tenant_id = ?", nativeQuery = true)
     Empresa findEmpPorTenantAtivo(Integer tenantativo);
 

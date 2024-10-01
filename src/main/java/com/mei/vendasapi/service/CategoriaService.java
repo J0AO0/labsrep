@@ -11,15 +11,27 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.mei.vendasapi.domain.Categoria;
+import com.mei.vendasapi.domain.LogSistema;
 import com.mei.vendasapi.domain.dto.CategoriaDTO;
 import com.mei.vendasapi.domain.dto.CategoriaNewDTO;
 import com.mei.vendasapi.repository.CategoriaRepository;
+import com.mei.vendasapi.repository.LogSistemaRepository;
 import com.mei.vendasapi.service.exception.EntidadeNaoEncontradaExcepition;
+import com.mei.vendasapi.service.util.Tenantuser;
 
 @Service
 public class CategoriaService {
     @Autowired
     private CategoriaRepository repo;
+    
+    @Autowired
+    private Tenantuser tenantUsuario;
+    
+	@Autowired
+	private LogSistemaRepository repolog;
+
+	@Autowired
+	private LogSistemaService log;
 
     public Page<Categoria> findAll(Pageable pageable) {
         return repo.findAll(pageable);
@@ -38,7 +50,10 @@ public class CategoriaService {
          Categoria resEst = new Categoria();
          resEst.setNome(obj.getNome());
          resEst.setStatus(obj.getStatus());
-         return repo.save(resEst);
+         resEst.setTenant(tenantUsuario.buscarOuFalhar());
+         repo.save(resEst);
+         logCategoria(resEst, "insert");
+         return resEst;
     }
 
     public Categoria atualiza(CategoriaDTO obj) {
@@ -73,5 +88,14 @@ public class CategoriaService {
 	Categoria categoria = buscarOuFalhar(id);
 	categoria.setStatus(obj);
 		
+	}
+	
+	
+
+	private void logCategoria(Categoria obj, String string) {
+		LogSistema logsistema = log.insert(obj, string);
+		logsistema.setCategoria(obj);
+		repolog.save(logsistema);
+
 	}
 }
