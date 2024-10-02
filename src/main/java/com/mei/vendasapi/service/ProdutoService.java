@@ -9,9 +9,7 @@ import com.mei.vendasapi.domain.dto.flat.ProdutoFlat;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import com.mei.vendasapi.domain.Categoria;
@@ -49,6 +47,11 @@ public class ProdutoService {
         resEst.setCategoria(c);
         resEst.setStatus(obj.getStatus());
         return repo.save(resEst);
+    }
+
+    public Page<Produto> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
+        return repo.findAll(pageRequest);
     }
 
     public Produto atualiza(ProdutoDTO obj) {

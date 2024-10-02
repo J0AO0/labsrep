@@ -2,6 +2,7 @@ package com.mei.vendasapi.resource;
 
 import com.mei.vendasapi.domain.Produto;
 import com.mei.vendasapi.domain.Produto;
+import com.mei.vendasapi.domain.Produto;
 import com.mei.vendasapi.domain.dto.ProdutoDTO;
 import com.mei.vendasapi.domain.dto.ProdutoDTO;
 import com.mei.vendasapi.domain.dto.ProdutoNewDTO;
@@ -52,6 +53,18 @@ public class ProdutoResource {
         Produto obj = produtoService.buscarOuFalhar(id);
         return ResponseEntity.ok(obj);
     }
+
+
+    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    public ResponseEntity<Page<Produto>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                    @RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
+                                                    @RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
+                                                    @RequestParam(value = "direction", defaultValue = "ASC") String direction) {
+        Page<Produto> list = produtoService.findPage(page, linesPerPage, orderBy, direction);
+        return ResponseEntity.ok().body(list);
+    }
+
+
 
 
     @CheckSecurity.Produto.PodeCadastrar
