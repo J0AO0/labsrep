@@ -77,7 +77,7 @@ public class ProdutoRepositoryImpl implements ProdutoRepositoryQuery {
 
         if (produtoFilter.getName() != null) {
             predicates.add(
-                    builder.like(builder.lower(root.get("nome")), "%" + produtoFilter.getName() + "%"));
+                    builder.like(builder.lower(root.get("name")), "%" + produtoFilter.getName() + "%"));
         }
 
         if (produtoFilter.getQrCode() != null) {
@@ -98,10 +98,10 @@ public class ProdutoRepositoryImpl implements ProdutoRepositoryQuery {
             predicates.add(builder.lessThanOrEqualTo(logJoin.get("datagravacao"), offsetDateTime));
         }
 
-        if (produtoFilter.getStatus().equals("Ativos")) {
-            predicates.add(builder.equal(builder.lower(root.get("status")), true));
-        } else {
-            predicates.add(builder.equal(builder.lower(root.get("status")), false));
+        if ("Ativos".equals(produtoFilter.getStatus())) {
+            predicates.add(builder.equal(root.get("status"), true));
+        } else if ("Inativos".equals(produtoFilter.getStatus())) {
+            predicates.add(builder.equal(root.get("status"), false));
         }
 
         return predicates.toArray(new Predicate[predicates.size()]);
