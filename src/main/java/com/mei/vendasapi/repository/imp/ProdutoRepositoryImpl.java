@@ -41,14 +41,13 @@ public class ProdutoRepositoryImpl implements ProdutoRepositoryQuery {
         CriteriaQuery<Produto> criteria = builder.createQuery(Produto.class);
         Root<Produto> root = criteria.from(Produto.class);
         From<?, ?> logJoin = root.join("logs", JoinType.LEFT);
-        From<?, ?> produtoJoin = root.join("produto", JoinType.INNER);
         criteria.distinct(true);
         List<Order> orderList = new ArrayList();
         orderList.add(builder.desc(root.get("id")));
         criteria.orderBy(orderList);
 
 
-        Predicate[] predicates = criarRestricoes(produtoFilter, builder, root, logJoin,produtoJoin );
+        Predicate[] predicates = criarRestricoes(produtoFilter, builder, root, logJoin );
         criteria.where(predicates);
 
         TypedQuery<Produto> query = manager.createQuery(criteria);
@@ -60,7 +59,7 @@ public class ProdutoRepositoryImpl implements ProdutoRepositoryQuery {
     }
 
     private Predicate[] criarRestricoes(ProdutoFilter produtoFilter, CriteriaBuilder builder, Root<Produto> root,
-                                        From<?, ?> logJoin, From<?, ?> produtoJoin) {
+                                        From<?, ?> logJoin) {
         List<Predicate> predicates = new ArrayList<>();
         Tenant t = tenantUsuario.buscarOuFalhar();
         predicates.add(builder.equal(builder.lower(root.get("tenant")), t));
