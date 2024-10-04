@@ -7,7 +7,7 @@ import java.util.Date;
 public class CategoriaFilter {
     private Integer id;
     private String nome;
-    private Boolean status;
+    private String status;
     private String emailusuario;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date datagravacaode;
@@ -30,11 +30,11 @@ public class CategoriaFilter {
         this.nome = nome;
     }
 
-    public Boolean getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
