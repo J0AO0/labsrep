@@ -73,17 +73,11 @@ public class CategoriaRepositoryImpl implements CategoriaRepositoryQuery {
         }
 
         if (categoriaFilter.getNome() != null) {
-            predicates.add(
-                    builder.like(builder.lower(root.get("nome")), "%" + categoriaFilter.getNome() + "%"));
+        	predicates.add(
+					builder.like(builder.lower(root.get("nome")), "%" + categoriaFilter.getNome() + "%"));
         }
 
-        if (categoriaFilter.getStatus() != null) {
-            if (categoriaFilter.getStatus()) {
-                predicates.add(builder.equal(root.get("status"), true));
-            } else {
-                predicates.add(builder.equal(root.get("status"), false));
-            }
-        }
+       
 
         if (categoriaFilter.getDatagravacaode() != null) {
             Instant instant = categoriaFilter.getDatagravacaode().toInstant();
@@ -97,6 +91,10 @@ public class CategoriaRepositoryImpl implements CategoriaRepositoryQuery {
             OffsetDateTime offsetDateTime = instant.atOffset(zoneOffset);
             predicates.add(builder.lessThanOrEqualTo(logJoin.get("datagravacao"), offsetDateTime));
         }
+        
+
+		
+
 
         return predicates.toArray(new Predicate[predicates.size()]);
     }

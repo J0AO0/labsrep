@@ -35,13 +35,13 @@ public class CategoriaResource {
 	@Autowired
 	private CategoriaRepository catRepo;
 	
-	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<?> lista() {
-	
-	List<Categoria> lista =  categoriaService.lista();
-		
-	return ResponseEntity.ok(lista);	
-	}
+//	@RequestMapping(method = RequestMethod.GET)
+//	public ResponseEntity<?> lista() {
+//	
+//	List<Categoria> lista =  categoriaService.lista();
+//		
+//	return ResponseEntity.ok(lista);	
+//	}
 	
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -96,7 +96,7 @@ public class CategoriaResource {
 		return ResponseEntity.noContent().build();
 	}
 
-	@RequestMapping(value = "/filtro", method = RequestMethod.GET)
+	@RequestMapping( method = RequestMethod.GET)
 	public Page<CategoriaFlat> findAllPag(CategoriaFilter pacienteFilter, Pageable pageable) {
 
 		Page<Categoria> cats = catRepo.filtrar(pacienteFilter, pageable);
