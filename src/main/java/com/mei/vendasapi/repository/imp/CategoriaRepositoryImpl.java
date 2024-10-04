@@ -77,12 +77,6 @@ public class CategoriaRepositoryImpl implements CategoriaRepositoryQuery {
 					builder.like(builder.lower(root.get("nome")), "%" + categoriaFilter.getNome() + "%"));
         }
 
-       
-        if (categoriaFilter.getStatus().equals("Ativos")) {
-            predicates.add(builder.equal(builder.lower(root.get("status")), true));
-        } else {
-            predicates.add(builder.equal(builder.lower(root.get("status")), false));
-        }
 
         if (categoriaFilter.getDatagravacaode() != null) {
             Instant instant = categoriaFilter.getDatagravacaode().toInstant();
@@ -97,7 +91,11 @@ public class CategoriaRepositoryImpl implements CategoriaRepositoryQuery {
             predicates.add(builder.lessThanOrEqualTo(logJoin.get("datagravacao"), offsetDateTime));
         }
         
-
+        if (categoriaFilter.getStatus().equals("Ativos")) {
+			predicates.add(builder.equal(builder.lower(root.get("status")), false));
+		} else {
+			predicates.add(builder.equal(builder.lower(root.get("status")), true));
+		}
 		
 
 

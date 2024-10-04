@@ -55,7 +55,7 @@ public class CategoriaResource {
 	}
 
 
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity<Page<Categoria>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
 												   @RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
 												   @RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
@@ -102,10 +102,10 @@ public class CategoriaResource {
 
 	@RequestMapping( method = RequestMethod.GET)
 	public Page<CategoriaFlat> findAllPag(CategoriaFilter pacienteFilter, Pageable pageable) {
-
 		Page<Categoria> cats = catRepo.filtrar(pacienteFilter, pageable);
 		Page<CategoriaFlat> catsflat = categoriaService.mudarCategoriaParaFlat(cats);
 		return catsflat;
 
 	}
 }
+

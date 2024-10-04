@@ -30,16 +30,6 @@ public class CategoriaFilter {
         this.nome = nome;
     }
 
-
-    public String getStatus() {
-		return status;
-	}
-
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
 	public String getEmailusuario() {
         return emailusuario;
     }
@@ -63,4 +53,13 @@ public class CategoriaFilter {
     public void setDatagravacaoate(Date datagravacaoate) {
         this.datagravacaoate = datagravacaoate;
     }
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+    
 }
