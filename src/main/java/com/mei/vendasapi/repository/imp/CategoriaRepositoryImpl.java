@@ -78,6 +78,11 @@ public class CategoriaRepositoryImpl implements CategoriaRepositoryQuery {
         }
 
        
+        if (categoriaFilter.getStatus().equals("Ativos")) {
+            predicates.add(builder.equal(builder.lower(root.get("status")), true));
+        } else {
+            predicates.add(builder.equal(builder.lower(root.get("status")), false));
+        }
 
         if (categoriaFilter.getDatagravacaode() != null) {
             Instant instant = categoriaFilter.getDatagravacaode().toInstant();

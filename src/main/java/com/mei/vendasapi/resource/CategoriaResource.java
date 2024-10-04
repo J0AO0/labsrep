@@ -41,6 +41,10 @@ public class CategoriaResource {
 //	List<Categoria> lista =  categoriaService.lista();
 //		
 //	return ResponseEntity.ok(lista);	
+//
+//	List<Categoria> lista =  categoriaService.lista();
+//
+//	return ResponseEntity.ok(lista);
 //	}
 	
 	
@@ -51,7 +55,7 @@ public class CategoriaResource {
 	}
 
 
-	@RequestMapping(value = "/page", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<Page<Categoria>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
 												   @RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
 												   @RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,

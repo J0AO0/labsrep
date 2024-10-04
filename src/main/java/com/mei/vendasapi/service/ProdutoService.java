@@ -41,8 +41,8 @@ public class ProdutoService {
     	obj.setId(null);
         Produto resEst = new Produto();
         resEst.setName(obj.getName());
-        resEst.setDescricao(obj.getDescricao());
         resEst.setPreco(obj.getPreco());
+        resEst.setDescricao(obj.getDescricao());
         Categoria c = obj.getCategoria();
         resEst.setCategoria(c);
         resEst.setStatus(obj.getStatus());
