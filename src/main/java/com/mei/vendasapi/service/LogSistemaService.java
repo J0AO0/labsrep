@@ -3,6 +3,8 @@ package com.mei.vendasapi.service;
 
 import com.mei.vendasapi.domain.*;
 import com.mei.vendasapi.security.MEISecurity;
+import com.mei.vendasapi.service.util.Tenantuser;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,12 +14,17 @@ import java.time.OffsetDateTime;
 public class LogSistemaService {
     @Autowired
 	private MEISecurity meiSecurity;
+    
+    @Autowired
+    private Tenantuser tenantUsuario;
 
 	public LogSistema insert(Categoria obj, String acao) {
         String usuarioLogado = meiSecurity.getUsuario();
+        Categoria cat = new Categoria();
         
+        cat.setTenant(tenantUsuario.buscarOuFalhar());
 	    String comando = (acao + "  " + obj.toString());
-		LogSistema log = new LogSistema(null,usuarioLogado,comando,OffsetDateTime.now(),obj);
+		LogSistema log = new LogSistema(null,usuarioLogado,comando,OffsetDateTime.now(),obj, cat.getTenant());
 		return log;		
 	}
 	public LogSistema insert(Cliente obj, String acao) {

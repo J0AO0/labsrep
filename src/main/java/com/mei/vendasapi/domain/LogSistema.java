@@ -143,13 +143,15 @@ public class LogSistema implements Serializable{
 		this.categoria = categoria;
 	}
 	
-    public LogSistema(Integer id, String usuarioLogado, String comando, OffsetDateTime datagravacao, Categoria conv) {
+    public LogSistema(Integer id, String usuarioLogado, String comando, OffsetDateTime datagravacao, Categoria conv,  Tenant tenant) {
     	this.id = id;
 		this.emailUsuario = usuarioLogado;
 		this.comando = comando;
 		this.datagravacao = datagravacao;
 		this.categoria = conv;
 		this.status = true;
+		this.tenant = tenant;
+		
 	}
     public LogSistema(Integer id, String usuarioLogado, String comando, OffsetDateTime datagravacao, Empresa empresa) {
     	this.id = id;
