@@ -107,4 +107,22 @@ public class ProdutoService {
 
         return page;
     }
+
+    public ProdutoDTO getProdutoById(Integer id) {
+        // Busca o produto no repositório
+        Produto produto = repo.findById(id)
+                .orElseThrow(() -> new EntidadeNaoEncontradaExcepition("Produto não encontrado"));
+        // Constrói o caminho completo da imagem
+        String imagemPath = "/assets/fotos_produto/" + produto.getQrCode();
+        // Cria o ProdutoDTO e preenche os dados do produto
+        ProdutoDTO produtoDto = new ProdutoDTO();
+        produtoDto.setId(produto.getId());
+        produtoDto.setName(produto.getName());
+        produtoDto.setCategoria(produto.getCategoria());
+        produtoDto.setPreco(produto.getPreco());
+        produtoDto.setDescricao(produto.getDescricao());
+        produtoDto.setQrCode(imagemPath); // Adiciona o caminho da imagem
+
+        return produtoDto;
+    }
 }

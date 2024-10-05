@@ -38,8 +38,6 @@ public class Produto implements Serializable {
 
 	private String qrCode;
 
-	
-    
     @ManyToOne
     private Tenant tenant;
 

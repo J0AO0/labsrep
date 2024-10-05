@@ -11,6 +11,7 @@ import com.mei.vendasapi.repository.ProdutoRepository;
 import com.mei.vendasapi.repository.filter.ProdutoFilter;
 import com.mei.vendasapi.security.resource.CheckSecurity;
 import com.mei.vendasapi.service.ProdutoService;
+import com.mei.vendasapi.service.exception.EntidadeNaoEncontradaExcepition;
 import org.hibernate.annotations.Check;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,23 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+
+import javax.imageio.IIOImage;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.ImageOutputStream;
 import javax.validation.Valid;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/produtos")
@@ -112,5 +125,90 @@ public class ProdutoResource {
         return prodsflat;
 
     }
+
+//    @PostMapping("/upload-foto")
+//    public ResponseEntity<String> uploadFoto(@RequestParam("file") MultipartFile file,
+//                                             @RequestParam("produtoId") Integer produtoId) {
+//        try {
+//            // Verifique se o arquivo é PNG
+//            if (!file.getContentType().equals("image/png")) {
+//                return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
+//                        .body("Apenas arquivos PNG são suportados");
+//            }
+//
+//            // Gera um nome aleatório para a foto
+//            String uniqueFileName = UUID.randomUUID().toString() + ".jpeg";
+//
+//            // Converta a imagem PNG para WebP (ou JPEG) usando o webp-imageio
+//            BufferedImage bufferedImage = ImageIO.read(file.getInputStream());
+//            File outputFile = new File("C:\\Users\\joaoc\\OneDrive\\Área de Trabalho\\projeto\\labsrep-ui\\src\\assets\\fotos_produto\\" + uniqueFileName);
+//
+//            // Obtenha um escritor para o formato WebP
+//            ImageWriter writer = ImageIO.getImageWritersByFormatName("jpeg").next();
+//            ImageOutputStream ios = ImageIO.createImageOutputStream(outputFile);
+//            writer.setOutput(ios);
+//
+//            // Configurações opcionais de parâmetros de escrita (exemplo: qualidade)
+//            ImageWriteParam param = writer.getDefaultWriteParam();
+//            // Descomente a linha abaixo se quiser configurar a qualidade da compressão
+//            // param.setCompressionQuality(0.85f); // Define a qualidade para 85%
+//
+//            // Escreve a imagem
+//            writer.write(null, new IIOImage(bufferedImage, null, null), param);
+//            ios.close();
+//            writer.dispose();
+//
+//            // Busca o produto pelo ID
+//            Optional<Produto> produtoOptional = produtoRepo.findById(produtoId);
+//            if (!produtoOptional.isPresent()) {
+//                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produto não encontrado");
+//            }
+//
+//            // Atualiza o produto com o nome do arquivo da imagem
+//            Produto produto = produtoOptional.get();
+//            produto.setQrCode(uniqueFileName); // Salva o nome da imagem no banco de dados
+//
+//            // Salva as alterações no banco de dados
+//            produtoRepo.save(produto);
+//
+//            return ResponseEntity.ok("Foto salva com sucesso e associada ao produto!");
+//        } catch (IOException e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao salvar a imagem");
+//        }
+//    }
+@PostMapping("/upload-foto")
+public ResponseEntity<String> uploadFoto(@RequestParam("file") MultipartFile file) {
+    try {
+        // Verifique se o arquivo é PNG
+        if (!file.getContentType().equals("image/png")) {
+            return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
+                    .body("Apenas arquivos PNG são suportados");
+        }
+
+        String uniqueFileName = UUID.randomUUID().toString() + ".jpeg";
+        // Converta a imagem PNG para WebP usando o webp-imageio
+        BufferedImage bufferedImage = ImageIO.read(file.getInputStream());
+        File outputFile = new File("C:\\Users\\joaoc\\OneDrive\\Área de Trabalho\\projeto\\labsrep-ui\\src\\assets\\fotos_produto\\" + uniqueFileName);
+
+        // Obtenha um escritor para o formato WebP
+        ImageWriter writer = ImageIO.getImageWritersByFormatName("jpeg").next();
+        ImageOutputStream ios = ImageIO.createImageOutputStream(outputFile);
+        writer.setOutput(ios);
+
+        // Configurações opcionais de parâmetros de escrita (por exemplo, qualidade)
+        ImageWriteParam param = writer.getDefaultWriteParam();
+        // Se quiser configurar a qualidade da compressão, descomente a linha abaixo
+        // param.setCompressionQuality(0.85f); // Define a qualidade para 85%
+
+        // Escreve a imagem
+        writer.write(null, new IIOImage(bufferedImage, null, null), param);
+        ios.close();
+        writer.dispose();
+
+        return ResponseEntity.ok("Foto salva com sucesso!");
+    } catch (IOException e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao salvar a imagem");
+    }
+}
 
 }
