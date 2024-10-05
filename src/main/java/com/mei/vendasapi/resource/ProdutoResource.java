@@ -1,28 +1,13 @@
 package com.mei.vendasapi.resource;
 
-import com.mei.vendasapi.domain.Produto;
-import com.mei.vendasapi.domain.Produto;
-import com.mei.vendasapi.domain.Produto;
-import com.mei.vendasapi.domain.dto.ProdutoDTO;
-import com.mei.vendasapi.domain.dto.ProdutoDTO;
-import com.mei.vendasapi.domain.dto.ProdutoNewDTO;
-import com.mei.vendasapi.domain.dto.flat.ProdutoFlat;
-import com.mei.vendasapi.repository.ProdutoRepository;
-import com.mei.vendasapi.repository.filter.ProdutoFilter;
-import com.mei.vendasapi.security.resource.CheckSecurity;
-import com.mei.vendasapi.service.ProdutoService;
-import com.mei.vendasapi.service.exception.EntidadeNaoEncontradaExcepition;
-import org.hibernate.annotations.Check;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.UUID;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -30,17 +15,42 @@ import javax.imageio.ImageWriteParam;
 import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageOutputStream;
 import javax.validation.Valid;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import com.google.common.io.Files;
+import com.mei.vendasapi.domain.Produto;
+import com.mei.vendasapi.domain.dto.ProdutoDTO;
+import com.mei.vendasapi.domain.dto.ProdutoNewDTO;
+import com.mei.vendasapi.domain.dto.flat.ProdutoFlat;
+import com.mei.vendasapi.repository.ProdutoRepository;
+import com.mei.vendasapi.repository.filter.ProdutoFilter;
+import com.mei.vendasapi.security.resource.CheckSecurity;
+import com.mei.vendasapi.service.ProdutoService;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @RestController
 @RequestMapping(value = "/produtos")
 public class ProdutoResource {
+	
+	
 
     @Autowired
     private ProdutoService produtoService;
@@ -82,12 +92,13 @@ public class ProdutoResource {
 
     @CheckSecurity.Produto.PodeCadastrar
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Produto> criarProduto(@Valid @RequestBody ProdutoNewDTO objNewDTO) {
+    public ResponseEntity<Produto> criarProduto(@Valid @RequestBody ProdutoNewDTO objNewDTO, @RequestParam("file") MultipartFile arquivo) {
         Produto novoObj = modelMapper.map(objNewDTO, Produto.class);
-        Produto objNovo = produtoService.insert(objNewDTO);
-
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
-                path("/{id}").buildAndExpand(objNovo.getId()).toUri();
+        Produto objNovo = produtoService.insert(objNewDTO, arquivo);
+        
+        
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+            .path("/{id}").buildAndExpand(objNovo.getId()).toUri();
 
         return ResponseEntity.created(uri).body(novoObj);
     }

@@ -1,29 +1,39 @@
 package com.mei.vendasapi.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
-import com.mei.vendasapi.domain.dto.flat.ProdutoFlat;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.google.common.io.Files;
 import com.mei.vendasapi.domain.Categoria;
-import com.mei.vendasapi.domain.Cliente;
-import com.mei.vendasapi.domain.Pedido;
 import com.mei.vendasapi.domain.Produto;
 import com.mei.vendasapi.domain.dto.ProdutoDTO;
 import com.mei.vendasapi.domain.dto.ProdutoNewDTO;
+import com.mei.vendasapi.domain.dto.flat.ProdutoFlat;
 import com.mei.vendasapi.repository.ProdutoRepository;
 import com.mei.vendasapi.service.exception.EntidadeEmUsoException;
 import com.mei.vendasapi.service.exception.EntidadeNaoEncontradaExcepition;
 
 @Service
 public class ProdutoService {
+	
+	private static String caminhoImagem = "C:\\\\Users\\\\joaoc\\\\OneDrive\\\\Área de Trabalho\\\\projeto\\\\labsrep-ui\\\\src\\\\assets\\\\fotos_produto\\\\";
+	
     @Autowired
     private ProdutoRepository repo;
 
@@ -37,7 +47,7 @@ public class ProdutoService {
     }
     
     @Transactional
-    public Produto insert(ProdutoNewDTO obj){
+    public Produto insert(ProdutoNewDTO obj, MultipartFile arquivo){
     	obj.setId(null);
         Produto resEst = new Produto();
         resEst.setName(obj.getName());
@@ -46,7 +56,28 @@ public class ProdutoService {
         Categoria c = obj.getCategoria();
         resEst.setCategoria(c);
         resEst.setStatus(obj.getStatus());
-        return repo.save(resEst);
+        
+        repo.save(resEst);
+        
+        try {
+        	 if (!arquivo.isEmpty()) {
+                 byte[] bytes = arquivo.getBytes();  // Converte o arquivo em bytes
+                 File caminho = new File(caminhoImagem + arquivo.getOriginalFilename()); // Define o caminho do arquivo
+                 Files.write(bytes, caminho);
+                 
+                 resEst.setQrCode(String.valueOf(resEst.getId()) + arquivo.getOriginalFilename());
+                 
+                 
+             }
+        	
+        	
+		} catch (IOException e) {
+			e.getStackTrace();
+		}
+        
+        
+        
+        return resEst;
     }
 
     public Page<Produto> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
