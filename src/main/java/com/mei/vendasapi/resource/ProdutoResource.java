@@ -74,7 +74,7 @@ public class ProdutoResource {
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> lista() {
 
-        List<Produto> lista =  produtoService.lista();
+        List<ProdutoFlat> lista =  produtoService.findAllSql();
 
         return ResponseEntity.ok(lista);
     }
@@ -171,7 +171,7 @@ public class ProdutoResource {
 		catalogoFotoProduto.excluir(produtoId);
 	}
 	
-	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/teste"  ,produces = MediaType.APPLICATION_JSON_VALUE)
 	public FotoProdutoDTO buscar( @PathVariable Integer produtoId) {
 		FotoProduto fotoProduto = catalogoFotoProduto.buscarOuFalhar( produtoId);
 		

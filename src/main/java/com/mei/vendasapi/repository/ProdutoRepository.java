@@ -24,5 +24,8 @@ public interface ProdutoRepository extends JpaRepository<Produto, Integer>, Prod
     @Query("select f from FotoProduto f join f.produto p "
 			+ "where f.produto.id = :produtoId")
 	Optional<FotoProduto> findFotoById(Integer produtoId);
+    
+    @Query(value = "select * from produto where status=1 and tenant_id = ?", nativeQuery = true)
+	List<Produto> findAllSql(Integer buscarOuFalharInt);
 
 }

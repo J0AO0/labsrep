@@ -35,17 +35,13 @@ public class CategoriaResource {
 	@Autowired
 	private CategoriaRepository catRepo;
 	
-//	@RequestMapping(method = RequestMethod.GET)
-//	public ResponseEntity<?> lista() {
-//	
-//	List<Categoria> lista =  categoriaService.lista();
-//		
-//	return ResponseEntity.ok(lista);	
-//
-//	List<Categoria> lista =  categoriaService.lista();
-//
-//	return ResponseEntity.ok(lista);
-//	}
+	@RequestMapping(value = "/lista" ,method = RequestMethod.GET)
+	public ResponseEntity<?> lista() {
+	
+	List<Categoria> lista =  categoriaService.lista();
+		
+	return ResponseEntity.ok(lista);	
+	}
 	
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)

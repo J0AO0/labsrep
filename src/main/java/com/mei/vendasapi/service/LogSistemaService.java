@@ -44,6 +44,10 @@ public class LogSistemaService {
 	public LogSistema insert(Produto obj, String acao) {
         String usuarioLogado = meiSecurity.getUsuario();
 	    String comando = (acao + "  " + obj.toString());
+	    Produto prod = new Produto();
+	    
+	    prod.setTenant(tenantUsuario.buscarOuFalhar());
+	    
 		LogSistema log = new LogSistema(null,usuarioLogado,comando,OffsetDateTime.now(),obj);
 		return log;		
 	}

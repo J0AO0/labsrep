@@ -1,7 +1,5 @@
 package com.mei.vendasapi.service;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,18 +14,18 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.google.common.io.Files;
 import com.mei.vendasapi.domain.Categoria;
+import com.mei.vendasapi.domain.LogSistema;
 import com.mei.vendasapi.domain.Produto;
 import com.mei.vendasapi.domain.dto.ProdutoDTO;
 import com.mei.vendasapi.domain.dto.ProdutoNewDTO;
 import com.mei.vendasapi.domain.dto.flat.ProdutoFlat;
+import com.mei.vendasapi.repository.LogSistemaRepository;
 import com.mei.vendasapi.repository.ProdutoRepository;
 import com.mei.vendasapi.service.exception.EntidadeEmUsoException;
 import com.mei.vendasapi.service.exception.EntidadeNaoEncontradaExcepition;
+import com.mei.vendasapi.service.util.Tenantuser;
 
 @Service
 public class ProdutoService {
@@ -36,6 +34,15 @@ public class ProdutoService {
 	
     @Autowired
     private ProdutoRepository repo;
+    
+    @Autowired
+	private Tenantuser tenantUsuario;
+
+	@Autowired
+	private LogSistemaRepository repolog;
+
+	@Autowired
+	private LogSistemaService log;
 
     public Page<Produto> findAll(Pageable pageable) {
         return repo.findAll(pageable);
@@ -53,11 +60,12 @@ public class ProdutoService {
         resEst.setName(obj.getName());
         resEst.setPreco(obj.getPreco());
         resEst.setDescricao(obj.getDescricao());
+        resEst.setTenant(tenantUsuario.buscarOuFalhar());
         Categoria c = obj.getCategoria();
         resEst.setCategoria(c);
         resEst.setStatus(obj.getStatus());
-        
         repo.save(resEst);
+        logProduto(resEst, "Insert");
         
         return resEst;
     }
@@ -90,11 +98,15 @@ public class ProdutoService {
 		}
     }
 
-    public List<Produto> lista() {
-
-        List<Produto> buscarTodas = repo.findAllCat();
-        return buscarTodas;
-    }
+    public List<ProdutoFlat> findAllSql() {
+		List<Produto> operadores = repo.findAllSql(tenantUsuario.buscarOuFalharInt());
+		List<ProdutoFlat> operadorFlat = new ArrayList<>();
+		for (Produto obj : operadores) {
+			ProdutoFlat opeFlat = new ProdutoFlat(obj);
+			operadorFlat.add(opeFlat);
+		}
+		return operadorFlat;
+	}
 
     public Produto buscarOuFalhar(int id) {
         return repo.findById(id)
@@ -138,4 +150,11 @@ public class ProdutoService {
 
         return produtoDto;
     }
+    
+	private void logProduto(Produto obj, String string) {
+		LogSistema logsistema = log.insert(obj, string);
+		logsistema.setProduto(obj);
+		repolog.save(logsistema);
+
+	}
 }

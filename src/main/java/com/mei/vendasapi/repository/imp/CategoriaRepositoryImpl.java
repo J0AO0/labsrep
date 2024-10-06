@@ -92,9 +92,9 @@ public class CategoriaRepositoryImpl implements CategoriaRepositoryQuery {
         }
         
         if (categoriaFilter.getStatus().equals("Ativos")) {
-			predicates.add(builder.equal(builder.lower(root.get("status")), false));
-		} else {
 			predicates.add(builder.equal(builder.lower(root.get("status")), true));
+		} else {
+			predicates.add(builder.equal(builder.lower(root.get("status")), false));
 		}
 		
 
