@@ -12,7 +12,7 @@ public class FotoProduto {
 
 	@Id
 	@Column(name = "produto_id")
-	private Long id;
+	private Integer id;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@MapsId
@@ -26,7 +26,7 @@ public class FotoProduto {
 	public FotoProduto() {
 	}
 
-	public FotoProduto(Long id, Produto produto, String nomeArquivo, String descricao, String contentType,
+	public FotoProduto(Integer id, Produto produto, String nomeArquivo, String descricao, String contentType,
 			Long tamanho) {
 		this.id = id;
 		this.produto = produto;
@@ -36,11 +36,13 @@ public class FotoProduto {
 		this.tamanho = tamanho;
 	}
 
-	public Long getId() {
+
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

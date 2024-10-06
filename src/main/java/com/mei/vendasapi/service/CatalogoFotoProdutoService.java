@@ -31,7 +31,7 @@ public class CatalogoFotoProdutoService {
 
 		if (fotoExistente.isPresent()) {
 			nomeArquivoExistente = fotoExistente.get().getNomeArquivo();
-			// produtoRepository.delete(fotoExistente.get());
+			produtoRepository.delete(fotoExistente.get());
 		}
 
 		foto.setNomeArquivo(nomeNovoArquivo);
@@ -53,8 +53,10 @@ public class CatalogoFotoProdutoService {
 	@Transactional
 	public void excluir(Integer produtoId) {
 		FotoProduto foto = buscarOuFalhar(produtoId);
-
-		// produtoRepository.delete(foto);
+		
+		System.out.println(foto.getProduto().getId() + " PRoduto");
+		
+		produtoRepository.delete(foto);
 		produtoRepository.flush();
 
 		fotoStorage.remover(foto.getNomeArquivo());

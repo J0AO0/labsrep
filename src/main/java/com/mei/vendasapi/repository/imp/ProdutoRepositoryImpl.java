@@ -1,10 +1,23 @@
 package com.mei.vendasapi.repository.imp;
 
-import com.mei.vendasapi.domain.Produto;
-import com.mei.vendasapi.domain.Tenant;
-import com.mei.vendasapi.repository.filter.ProdutoFilter;
-import com.mei.vendasapi.repository.query.ProdutoRepositoryQuery;
-import com.mei.vendasapi.service.util.Tenantuser;
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.From;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Order;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -13,21 +26,18 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.*;
-import java.time.Instant;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.util.ArrayList;
-import java.util.List;
+import com.mei.vendasapi.domain.FotoProduto;
+import com.mei.vendasapi.domain.Produto;
+import com.mei.vendasapi.domain.Tenant;
+import com.mei.vendasapi.repository.filter.ProdutoFilter;
+import com.mei.vendasapi.repository.query.ProdutoRepositoryQueries;
+import com.mei.vendasapi.repository.query.ProdutoRepositoryQuery;
+import com.mei.vendasapi.service.util.Tenantuser;
 
 
 @Primary
 @Component
-public class ProdutoRepositoryImpl implements ProdutoRepositoryQuery {
+public class ProdutoRepositoryImpl implements ProdutoRepositoryQuery, ProdutoRepositoryQueries {
 
     @PersistenceContext
     private EntityManager manager;
@@ -126,4 +136,18 @@ public class ProdutoRepositoryImpl implements ProdutoRepositoryQuery {
         criteria.select(builder.count(root));
         return manager.createQuery(criteria).getSingleResult();
     }
+    
+   
+
+	@Transactional
+	@Override
+	public FotoProduto save(FotoProduto foto) {
+		return manager.merge(foto);
+	}
+
+	@Transactional
+	@Override
+	public void delete(FotoProduto foto) {
+		manager.remove(foto);
+	}
 }

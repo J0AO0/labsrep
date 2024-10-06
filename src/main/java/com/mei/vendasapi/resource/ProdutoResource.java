@@ -147,7 +147,7 @@ public class ProdutoResource {
 
     }
 
-    @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping(value = "/{produtoId}/foto" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public FotoProdutoDTO atualizarFoto(@PathVariable Integer produtoId, @Valid FotoProdutoInput fotoProdutoInput) throws IOException {
 		Produto produto = produtoService.buscarOuFalhar( produtoId);
 		
@@ -165,7 +165,7 @@ public class ProdutoResource {
 		return fotoProdutoModelAssembler.toModel(fotoSalva);
 	}
 	
-	@DeleteMapping
+	@DeleteMapping(value = "/{produtoId}/foto")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void excluir(@PathVariable Integer produtoId) {
 		catalogoFotoProduto.excluir(produtoId);
@@ -178,7 +178,7 @@ public class ProdutoResource {
 		return fotoProdutoModelAssembler.toModel(fotoProduto);
 	}
 	
-	@GetMapping
+	@GetMapping(value = "/{produtoId}/t")
 	public ResponseEntity<InputStreamResource> servir(@PathVariable Integer produtoId, @RequestHeader(name = "accept") String acceptHeader) 
 					throws HttpMediaTypeNotAcceptableException {
 		try {
