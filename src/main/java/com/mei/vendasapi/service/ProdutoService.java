@@ -32,7 +32,7 @@ import com.mei.vendasapi.service.exception.EntidadeNaoEncontradaExcepition;
 @Service
 public class ProdutoService {
 	
-	private static String caminhoImagem = "C:\\\\Users\\\\joaoc\\\\OneDrive\\\\Área de Trabalho\\\\projeto\\\\labsrep-ui\\\\src\\\\assets\\\\fotos_produto\\\\";
+	private static String caminhoImagem = "C:\\git\\labsrep-ui\\src\\assets\\fotos_produto";
 	
     @Autowired
     private ProdutoRepository repo;
@@ -47,7 +47,7 @@ public class ProdutoService {
     }
     
     @Transactional
-    public Produto insert(ProdutoNewDTO obj, MultipartFile arquivo){
+    public Produto insert(ProdutoNewDTO obj){
     	obj.setId(null);
         Produto resEst = new Produto();
         resEst.setName(obj.getName());
@@ -58,24 +58,6 @@ public class ProdutoService {
         resEst.setStatus(obj.getStatus());
         
         repo.save(resEst);
-        
-        try {
-        	 if (!arquivo.isEmpty()) {
-                 byte[] bytes = arquivo.getBytes();  // Converte o arquivo em bytes
-                 File caminho = new File(caminhoImagem + arquivo.getOriginalFilename()); // Define o caminho do arquivo
-                 Files.write(bytes, caminho);
-                 
-                 resEst.setQrCode(String.valueOf(resEst.getId()) + arquivo.getOriginalFilename());
-                 
-                 
-             }
-        	
-        	
-		} catch (IOException e) {
-			e.getStackTrace();
-		}
-        
-        
         
         return resEst;
     }

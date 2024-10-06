@@ -1,30 +1,27 @@
 package com.mei.vendasapi.resource;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.UUID;
 
-import javax.imageio.IIOImage;
-import javax.imageio.ImageIO;
-import javax.imageio.ImageWriteParam;
-import javax.imageio.ImageWriter;
-import javax.imageio.stream.ImageOutputStream;
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,18 +30,21 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.google.common.io.Files;
+import com.mei.vendasapi.assembler.FotoProdutoModelAssembler;
+import com.mei.vendasapi.domain.FotoProduto;
 import com.mei.vendasapi.domain.Produto;
+import com.mei.vendasapi.domain.dto.FotoProdutoDTO;
 import com.mei.vendasapi.domain.dto.ProdutoDTO;
 import com.mei.vendasapi.domain.dto.ProdutoNewDTO;
 import com.mei.vendasapi.domain.dto.flat.ProdutoFlat;
+import com.mei.vendasapi.domain.model.input.FotoProdutoInput;
 import com.mei.vendasapi.repository.ProdutoRepository;
 import com.mei.vendasapi.repository.filter.ProdutoFilter;
 import com.mei.vendasapi.security.resource.CheckSecurity;
+import com.mei.vendasapi.service.CatalogoFotoProdutoService;
+import com.mei.vendasapi.service.FotoStorageService;
 import com.mei.vendasapi.service.ProdutoService;
-
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import com.mei.vendasapi.service.exception.EntidadeNaoEncontradaExcepition;
 
 @RestController
 @RequestMapping(value = "/produtos")
@@ -60,6 +60,16 @@ public class ProdutoResource {
 
     @Autowired
     private ProdutoRepository produtoRepo;
+    
+    
+    @Autowired
+	private CatalogoFotoProdutoService catalogoFotoProduto;
+	
+	@Autowired
+	private FotoStorageService fotoStorage;
+	
+	@Autowired
+	private FotoProdutoModelAssembler fotoProdutoModelAssembler;
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> lista() {
@@ -92,9 +102,9 @@ public class ProdutoResource {
 
     @CheckSecurity.Produto.PodeCadastrar
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Produto> criarProduto(@Valid @RequestBody ProdutoNewDTO objNewDTO, @RequestParam("file") MultipartFile arquivo) {
+    public ResponseEntity<Produto> criarProduto(@Valid @RequestBody ProdutoNewDTO objNewDTO) {
         Produto novoObj = modelMapper.map(objNewDTO, Produto.class);
-        Produto objNovo = produtoService.insert(objNewDTO, arquivo);
+        Produto objNovo = produtoService.insert(objNewDTO);
         
         
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -137,89 +147,67 @@ public class ProdutoResource {
 
     }
 
-//    @PostMapping("/upload-foto")
-//    public ResponseEntity<String> uploadFoto(@RequestParam("file") MultipartFile file,
-//                                             @RequestParam("produtoId") Integer produtoId) {
-//        try {
-//            // Verifique se o arquivo é PNG
-//            if (!file.getContentType().equals("image/png")) {
-//                return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
-//                        .body("Apenas arquivos PNG são suportados");
-//            }
-//
-//            // Gera um nome aleatório para a foto
-//            String uniqueFileName = UUID.randomUUID().toString() + ".jpeg";
-//
-//            // Converta a imagem PNG para WebP (ou JPEG) usando o webp-imageio
-//            BufferedImage bufferedImage = ImageIO.read(file.getInputStream());
-//            File outputFile = new File("C:\\Users\\joaoc\\OneDrive\\Área de Trabalho\\projeto\\labsrep-ui\\src\\assets\\fotos_produto\\" + uniqueFileName);
-//
-//            // Obtenha um escritor para o formato WebP
-//            ImageWriter writer = ImageIO.getImageWritersByFormatName("jpeg").next();
-//            ImageOutputStream ios = ImageIO.createImageOutputStream(outputFile);
-//            writer.setOutput(ios);
-//
-//            // Configurações opcionais de parâmetros de escrita (exemplo: qualidade)
-//            ImageWriteParam param = writer.getDefaultWriteParam();
-//            // Descomente a linha abaixo se quiser configurar a qualidade da compressão
-//            // param.setCompressionQuality(0.85f); // Define a qualidade para 85%
-//
-//            // Escreve a imagem
-//            writer.write(null, new IIOImage(bufferedImage, null, null), param);
-//            ios.close();
-//            writer.dispose();
-//
-//            // Busca o produto pelo ID
-//            Optional<Produto> produtoOptional = produtoRepo.findById(produtoId);
-//            if (!produtoOptional.isPresent()) {
-//                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produto não encontrado");
-//            }
-//
-//            // Atualiza o produto com o nome do arquivo da imagem
-//            Produto produto = produtoOptional.get();
-//            produto.setQrCode(uniqueFileName); // Salva o nome da imagem no banco de dados
-//
-//            // Salva as alterações no banco de dados
-//            produtoRepo.save(produto);
-//
-//            return ResponseEntity.ok("Foto salva com sucesso e associada ao produto!");
-//        } catch (IOException e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao salvar a imagem");
-//        }
-//    }
-@PostMapping("/upload-foto")
-public ResponseEntity<String> uploadFoto(@RequestParam("file") MultipartFile file) {
-    try {
-        // Verifique se o arquivo é PNG
-        if (!file.getContentType().equals("image/png")) {
-            return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
-                    .body("Apenas arquivos PNG são suportados");
-        }
+    @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public FotoProdutoDTO atualizarFoto(@PathVariable Integer produtoId, @Valid FotoProdutoInput fotoProdutoInput) throws IOException {
+		Produto produto = produtoService.buscarOuFalhar( produtoId);
+		
+		MultipartFile arquivo = fotoProdutoInput.getArquivo();
+		
+		FotoProduto foto = new FotoProduto();
+		foto.setProduto(produto);
+		foto.setDescricao(fotoProdutoInput.getDescricao());
+		foto.setContentType(arquivo.getContentType());
+		foto.setTamanho(arquivo.getSize());
+		foto.setNomeArquivo(arquivo.getOriginalFilename());
+		
+		FotoProduto fotoSalva = catalogoFotoProduto.salvar(foto, arquivo.getInputStream());
+		
+		return fotoProdutoModelAssembler.toModel(fotoSalva);
+	}
+	
+	@DeleteMapping
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void excluir(@PathVariable Integer produtoId) {
+		catalogoFotoProduto.excluir(produtoId);
+	}
+	
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	public FotoProdutoDTO buscar( @PathVariable Integer produtoId) {
+		FotoProduto fotoProduto = catalogoFotoProduto.buscarOuFalhar( produtoId);
+		
+		return fotoProdutoModelAssembler.toModel(fotoProduto);
+	}
+	
+	@GetMapping
+	public ResponseEntity<InputStreamResource> servir(@PathVariable Integer produtoId, @RequestHeader(name = "accept") String acceptHeader) 
+					throws HttpMediaTypeNotAcceptableException {
+		try {
+			FotoProduto fotoProduto = catalogoFotoProduto.buscarOuFalhar(produtoId);
+			
+			MediaType mediaTypeFoto = MediaType.parseMediaType(fotoProduto.getContentType());
+			List<MediaType> mediaTypesAceitas = MediaType.parseMediaTypes(acceptHeader);
+			
+			verificarCompatibilidadeMediaType(mediaTypeFoto, mediaTypesAceitas);
+			
+			InputStream inputStream = fotoStorage.recuperar(fotoProduto.getNomeArquivo());
+			
+			return ResponseEntity.ok()
+					.contentType(mediaTypeFoto)
+					.body(new InputStreamResource(inputStream));
+		} catch (EntidadeNaoEncontradaExcepition e) {
+			return ResponseEntity.notFound().build();
+		}
+	}
 
-        String uniqueFileName = UUID.randomUUID().toString() + ".jpeg";
-        // Converta a imagem PNG para WebP usando o webp-imageio
-        BufferedImage bufferedImage = ImageIO.read(file.getInputStream());
-        File outputFile = new File("C:\\Users\\joaoc\\OneDrive\\Área de Trabalho\\projeto\\labsrep-ui\\src\\assets\\fotos_produto\\" + uniqueFileName);
-
-        // Obtenha um escritor para o formato WebP
-        ImageWriter writer = ImageIO.getImageWritersByFormatName("jpeg").next();
-        ImageOutputStream ios = ImageIO.createImageOutputStream(outputFile);
-        writer.setOutput(ios);
-
-        // Configurações opcionais de parâmetros de escrita (por exemplo, qualidade)
-        ImageWriteParam param = writer.getDefaultWriteParam();
-        // Se quiser configurar a qualidade da compressão, descomente a linha abaixo
-        // param.setCompressionQuality(0.85f); // Define a qualidade para 85%
-
-        // Escreve a imagem
-        writer.write(null, new IIOImage(bufferedImage, null, null), param);
-        ios.close();
-        writer.dispose();
-
-        return ResponseEntity.ok("Foto salva com sucesso!");
-    } catch (IOException e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao salvar a imagem");
-    }
-}
+	private void verificarCompatibilidadeMediaType(MediaType mediaTypeFoto, 
+			List<MediaType> mediaTypesAceitas) throws HttpMediaTypeNotAcceptableException {
+		
+		boolean compativel = mediaTypesAceitas.stream()
+				.anyMatch(mediaTypeAceita -> mediaTypeAceita.isCompatibleWith(mediaTypeFoto));
+		
+		if (!compativel) {
+			throw new HttpMediaTypeNotAcceptableException(mediaTypesAceitas);
+		}
+	}
 
 }
