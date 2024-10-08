@@ -27,7 +27,7 @@ public class Produto implements Serializable {
     
     private String name;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Categoria categoria;
     
     private BigDecimal preco;
