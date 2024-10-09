@@ -7,6 +7,8 @@ import com.mei.vendasapi.domain.dto.PedidoDTO;
 import com.mei.vendasapi.domain.dto.PedidoNewDTO;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,22 +25,76 @@ public class Pedido implements Serializable{
     private Cliente cliente;
     @ManyToOne
     private TipoPedido tipoPedido;
+    private String tipoFrete;
+    private String tipoVenda;
+    private BigDecimal valorFrete;
+    private String condPagamento;
+    private BigDecimal comissao;
     @ManyToOne
     private Tenant tenant;
+
+    public Pedido(Integer id, Cliente cliente, TipoPedido tipoPedido, String tipoFrete, String tipoVenda,
+                  BigDecimal valorFrete, String condPagamento, BigDecimal comissao, Tenant tenant, List<LogSistema> logs) {
+        this.id = id;
+        this.cliente = cliente;
+        this.tipoPedido = tipoPedido;
+        this.tipoFrete = tipoFrete;
+        this.tipoVenda = tipoVenda;
+        this.valorFrete = valorFrete;
+        this.condPagamento = condPagamento;
+        this.comissao = comissao;
+        this.tenant = tenant;
+        this.logs = logs;
+    }
+
+    public Pedido() {
+
+    }
 
     public Integer getId() {
         return id;
     }
-    public Pedido() {
-        super();
+
+    public String getTipoFrete() {
+        return tipoFrete;
     }
-    public Pedido(Integer id, Cliente cliente, Tenant tenant, TipoPedido tipoPedido) {
-        super();
-        this.id = id;
-        this.cliente = cliente;
-        this.tenant = tenant;
-        this.tipoPedido = tipoPedido;
+
+    public void setTipoFrete(String tipoFrete) {
+        this.tipoFrete = tipoFrete;
     }
+
+    public String getTipoVenda() {
+        return tipoVenda;
+    }
+
+    public void setTipoVenda(String tipoVenda) {
+        this.tipoVenda = tipoVenda;
+    }
+
+    public BigDecimal getValorFrete() {
+        return valorFrete;
+    }
+
+    public void setValorFrete(BigDecimal valorFrete) {
+        this.valorFrete = valorFrete;
+    }
+
+    public String getCondPagamento() {
+        return condPagamento;
+    }
+
+    public void setCondPagamento(String condPagamento) {
+        this.condPagamento = condPagamento;
+    }
+
+    public BigDecimal getComissao() {
+        return comissao;
+    }
+
+    public void setComissao(BigDecimal comissao) {
+        this.comissao = comissao;
+    }
+
     public void setId(Integer id) {
         this.id = id;
     }

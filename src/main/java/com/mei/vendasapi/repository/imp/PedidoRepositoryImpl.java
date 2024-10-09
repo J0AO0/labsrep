@@ -76,12 +76,28 @@ public class PedidoRepositoryImpl implements PedidoRepositoryQuery {
 
         if (pedidoFilter.getCliente() != null) {
             predicates.add(
-                    builder.like(builder.lower(root.get("nome")), "%" + pedidoFilter.getCliente() + "%"));
+                    builder.like(builder.lower(root.get("cliente")), "%" + pedidoFilter.getCliente() + "%"));
         }
 
         if (pedidoFilter.getTipoPedido() != null) {
             predicates.add(
-                    builder.like(builder.lower(root.get("qrCode")), "%" + pedidoFilter.getTipoPedido() + "%"));
+                    builder.like(builder.lower(root.get("tipopedido")), "%" + pedidoFilter.getTipoPedido() + "%"));
+        }
+
+        if (pedidoFilter.getTipoFrete() != null) {
+            predicates.add(
+                    builder.like(builder.lower(root.get("tipofrete")), "%" + pedidoFilter.getTipoFrete() + "%"));
+        }
+
+
+        if (pedidoFilter.getTipoVenda() != null) {
+            predicates.add(
+                    builder.like(builder.lower(root.get("tipovenda")), "%" + pedidoFilter.getTipoVenda() + "%"));
+        }
+
+        if (pedidoFilter.getCondPagamento() != null) {
+            predicates.add(
+                    builder.like(builder.lower(root.get("condpagamento")), "%" + pedidoFilter.getCondPagamento() + "%"));
         }
 
         if (pedidoFilter.getDatagravacaode() != null) {

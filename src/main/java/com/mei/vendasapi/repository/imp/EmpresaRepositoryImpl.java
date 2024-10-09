@@ -162,10 +162,6 @@ public class EmpresaRepositoryImpl implements EmpresaRepositoryQuery {
             predicates.add(builder.equal(root.get("status"), false)); // Retorna empresas inativas (status = false)
         }
 
-
-
-
-
         return predicates.toArray(new Predicate[predicates.size()]);
     }
 
