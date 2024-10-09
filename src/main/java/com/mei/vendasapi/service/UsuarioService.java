@@ -9,6 +9,7 @@ import com.mei.vendasapi.domain.dto.EmpresaRetornUsuario;
 import com.mei.vendasapi.domain.dto.EmpresaUsu;
 import com.mei.vendasapi.domain.dto.UsuarioDTO;
 import com.mei.vendasapi.domain.dto.flat.UsuarioFlat;
+import com.mei.vendasapi.domain.dto.flat.UsuarioFlat;
 import com.mei.vendasapi.repository.*;
 import com.mei.vendasapi.security.MEISecurity;
 import com.mei.vendasapi.service.exception.DataIntegrityException;
@@ -18,6 +19,7 @@ import com.mei.vendasapi.service.util.Tenantuser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -269,6 +271,19 @@ public class UsuarioService {
 
         }
 
+    }
+
+    public Page<UsuarioFlat> mudarUsuarioParaFlat(Page<Usuario> pacs) {
+        List<UsuarioFlat> cFlats = new ArrayList<UsuarioFlat>();
+        for (Usuario c : pacs.getContent()) {
+            UsuarioFlat cFlat = new UsuarioFlat(c);
+            cFlats.add(cFlat);
+
+        }
+        Page<UsuarioFlat> page = new PageImpl<>(cFlats, pacs.getPageable(),
+                pacs.getTotalElements());
+
+        return page;
     }
 
 }

@@ -3,6 +3,7 @@ package com.mei.vendasapi.repository;
 import java.util.List;
 
 import com.mei.vendasapi.domain.Empresa;
+import com.mei.vendasapi.repository.query.EmpresaRepositoryQuery;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -11,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 
-public interface EmpresaRepository extends JpaRepository<Empresa, Integer> {
+public interface EmpresaRepository extends JpaRepository<Empresa, Integer>, EmpresaRepositoryQuery {
     @Query(value= "select * from empresa where id = ?", nativeQuery = true)
     Empresa findPorId(int id);
 

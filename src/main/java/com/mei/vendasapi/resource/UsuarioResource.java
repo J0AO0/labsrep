@@ -4,13 +4,18 @@ import java.net.URI;
 import java.util.List;
 
 import com.mei.vendasapi.domain.Usuario;
+import com.mei.vendasapi.domain.Usuario;
 import com.mei.vendasapi.domain.dto.UsuarioDTO;
 import com.mei.vendasapi.domain.dto.flat.UsuarioFlat;
+import com.mei.vendasapi.domain.dto.flat.UsuarioFlat;
 import com.mei.vendasapi.domain.dto.viewretorno.UsuarioView;
+import com.mei.vendasapi.repository.UsuarioRepository;
+import com.mei.vendasapi.repository.filter.UsuarioFilter;
 import com.mei.vendasapi.security.resource.CheckSecurity;
 import com.mei.vendasapi.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,6 +37,9 @@ public class UsuarioResource {
     @Autowired
     private UsuarioService service;
 
+    @Autowired
+    private UsuarioRepository usuRepo;
+
     @CheckSecurity.Usuario.PodeConsultar
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> find(@PathVariable Integer id) {
@@ -45,12 +53,12 @@ public class UsuarioResource {
         Usuario obj = service.find(id);
         return ResponseEntity.ok().body(obj);
     }
-    @CheckSecurity.Usuario.PodeConsultar
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<UsuarioFlat>> findAll() {
-        List<UsuarioFlat> list = service.findAllSQL();
-        return ResponseEntity.ok().body(list);
-    }
+//    @CheckSecurity.Usuario.PodeConsultar
+//    @RequestMapping(method = RequestMethod.GET)
+//    public ResponseEntity<List<UsuarioFlat>> findAll() {
+//        List<UsuarioFlat> list = service.findAllSQL();
+//        return ResponseEntity.ok().body(list);
+//    }
     @CheckSecurity.Usuario.PodeConsultar
     @RequestMapping(value = "/inativos", method = RequestMethod.GET)
     public ResponseEntity<List<UsuarioFlat>> findAllInativo() {
@@ -139,5 +147,13 @@ public class UsuarioResource {
 
 
     }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public Page<UsuarioFlat> findAllPag(UsuarioFilter pacienteFilter, Pageable pageable) {
+        Page<Usuario> cats = usuRepo.filtrar(pacienteFilter, pageable);
+        Page<UsuarioFlat> catsflat = service.mudarUsuarioParaFlat(cats);
+        return catsflat;
+    }
+
 
 }

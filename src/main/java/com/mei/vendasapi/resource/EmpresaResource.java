@@ -5,16 +5,22 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.mei.vendasapi.domain.Categoria;
+import com.mei.vendasapi.domain.Empresa;
+import com.mei.vendasapi.domain.Usuario;
+import com.mei.vendasapi.domain.dto.flat.CategoriaFlat;
+import com.mei.vendasapi.domain.dto.flat.EmpresaFlat;
+import com.mei.vendasapi.repository.EmpresaRepository;
+import com.mei.vendasapi.repository.filter.CategoriaFilter;
+import com.mei.vendasapi.repository.filter.EmpresaFilter;
+import com.mei.vendasapi.repository.filter.EmpresaFilter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.mei.vendasapi.domain.Empresa;
@@ -33,13 +39,16 @@ public class EmpresaResource {
     @Autowired
     private ModelMapper modelMapper;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<?> lista() {
+    @Autowired
+    private EmpresaRepository empRepo;
 
-        List<Empresa> lista =  empresaService.lista();
-
-        return ResponseEntity.ok(lista);
-    }
+//    @RequestMapping(method = RequestMethod.GET)
+//    public ResponseEntity<?> lista() {
+//
+//        List<Empresa> lista =  empresaService.lista();
+//
+//        return ResponseEntity.ok(lista);
+//    }
 
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -89,6 +98,28 @@ public class EmpresaResource {
 		List<EmpresaFlat> list = empresaService.findAllUsuario();
 		return ResponseEntity.ok().body(list);
 	}
-    
 
+    @RequestMapping( method = RequestMethod.GET)
+    public Page<EmpresaFlat> findAllPag(EmpresaFilter usuarioFilter, Pageable pageable) {
+        Page<Empresa> usuarios = empRepo.filtrar(usuarioFilter, pageable);
+        Page<EmpresaFlat> usuariosFlat = empresaService.mudarEmpresaParaFlat(usuarios);
+        return usuariosFlat;
+    }
+
+    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    public ResponseEntity<Page<Empresa>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                  @RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
+                                                  @RequestParam(value = "orderBy", defaultValue = "id") String orderBy,
+                                                  @RequestParam(value = "direction", defaultValue = "ASC") String direction) {
+        Page<Empresa> list = empresaService.findPage(page, linesPerPage, orderBy, direction);
+        return ResponseEntity.ok().body(list);
+    }
+
+//    @RequestMapping(value = "/filtro", method = RequestMethod.GET)
+//    public Page<EmpresaFlat> findAllPag(EmpresaFilter produtoFilter, Pageable pageable) {
+//        Page<Empresa> prods = empRepo.filtrar(produtoFilter, pageable);
+//        Page<EmpresaFlat> prodsflat = empresaService.mudarEmpresaParaFlat(prods);
+//        return prodsflat;
+//
+//    }
 }

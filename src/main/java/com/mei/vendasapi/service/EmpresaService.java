@@ -6,9 +6,13 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import com.mei.vendasapi.domain.Categoria;
+import com.mei.vendasapi.domain.LogSistema;
+import com.mei.vendasapi.domain.Usuario;
+import com.mei.vendasapi.domain.dto.flat.CategoriaFlat;
+import com.mei.vendasapi.repository.LogSistemaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,10 +30,15 @@ public class EmpresaService {
 
     @Autowired
     private EmpresaRepository repo;
-    
-    
+
 	@Autowired
 	private Tenantuser tenantUsuario;
+
+    @Autowired
+    private LogSistemaRepository repolog;
+
+    @Autowired
+    private LogSistemaService log;
 
     public Page<Empresa> findAll(Pageable pageable) {
         return repo.findAll(pageable);
@@ -41,6 +50,7 @@ public class EmpresaService {
 
     public Empresa insert(EmpresaNewDTO obj){
         Empresa resEst = new Empresa(obj);
+        logEmpresa(resEst, "insert");
         return repo.save(resEst);
     }
 
@@ -99,5 +109,30 @@ public class EmpresaService {
 
 		return empresasF;
 	}
+
+    public Page<EmpresaFlat> mudarEmpresaParaFlat(Page<Empresa> pacs) {
+        List<EmpresaFlat> cFlats = new ArrayList<EmpresaFlat>();
+        for (Empresa c : pacs.getContent()) {
+            EmpresaFlat cFlat = new EmpresaFlat(c);
+            cFlats.add(cFlat);
+
+        }
+        Page<EmpresaFlat> page = new PageImpl<>(cFlats, pacs.getPageable(),
+                pacs.getTotalElements());
+
+        return page;
+    }
+
+    public Page<Empresa> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
+        return repo.findAll(pageRequest);
+    }
+
+    private void logEmpresa(Empresa obj, String string) {
+        LogSistema logsistema = log.insert(obj, string);
+        logsistema.setEmpresa(obj);
+        repolog.save(logsistema);
+
+    }
     
 }

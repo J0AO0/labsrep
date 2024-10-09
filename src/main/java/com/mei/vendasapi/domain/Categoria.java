@@ -24,7 +24,6 @@ public class Categoria implements Serializable {
 	private String nome;
 
 	private Boolean status = Boolean.TRUE;
-
 	@ManyToOne
 	private Tenant tenant;
 

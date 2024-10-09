@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import com.mei.vendasapi.domain.Usuario;
+import com.mei.vendasapi.repository.query.UsuarioRepositoryQuery;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
+public interface UsuarioRepository extends JpaRepository<Usuario, Integer>, UsuarioRepositoryQuery {
     @Query(value= "select * from usuario where status=1 and email = ?", nativeQuery = true)
     Usuario findPorEmail(String email);
 
