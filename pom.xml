@@ -137,8 +137,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.12</version> <!-- Version compatible con Spring
-			2.2.4.RELEASE -->
+			<version>1.18.12</version>
 			<scope>provided</scope>
 		</dependency>
 

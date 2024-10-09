@@ -178,7 +178,7 @@ public class ProdutoResource {
 		return fotoProdutoModelAssembler.toModel(fotoProduto);
 	}
 	
-	@GetMapping(value = "/{produtoId}/t")
+	@GetMapping(value = "/{produtoId}/fotos")
 	public ResponseEntity<InputStreamResource> servir(@PathVariable Integer produtoId, @RequestHeader(name = "accept") String acceptHeader) 
 					throws HttpMediaTypeNotAcceptableException {
 		try {

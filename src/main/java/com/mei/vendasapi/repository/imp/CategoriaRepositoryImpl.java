@@ -90,12 +90,14 @@ public class CategoriaRepositoryImpl implements CategoriaRepositoryQuery {
             OffsetDateTime offsetDateTime = instant.atOffset(zoneOffset);
             predicates.add(builder.lessThanOrEqualTo(logJoin.get("datagravacao"), offsetDateTime));
         }
-        
-        if (categoriaFilter.getStatus().equals("Ativos")) {
-			predicates.add(builder.equal(builder.lower(root.get("status")), true));
-		} else {
-			predicates.add(builder.equal(builder.lower(root.get("status")), false));
-		}
+
+            if (categoriaFilter.getStatus().equals("Ativos")) {
+                predicates.add(builder.equal(root.get("status"), true)); // Retorna categorias ativas (status = true)
+            } else {
+                predicates.add(builder.equal(root.get("status"), false)); // Retorna categorias inativas (status = false)
+            }
+
+
 		
 
 
