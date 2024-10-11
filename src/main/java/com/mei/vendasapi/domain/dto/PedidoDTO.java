@@ -1,7 +1,6 @@
 package com.mei.vendasapi.domain.dto;
 
-import com.mei.vendasapi.domain.Cliente;
-import com.mei.vendasapi.domain.TipoPedido;
+import com.mei.vendasapi.domain.*;
 
 import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
@@ -10,27 +9,13 @@ public class PedidoDTO {
     private Integer id;
     private TipoPedido tipoPedido;
     private Cliente cliente;
-    private String tipoFrete;
-    private String tipoVenda;
+    private TipoFrete tipoFrete;
+    private FormaPagamento formaPagamento;
     private BigDecimal valorFrete;
-    private String condPagamento;
+    private CondPagamento condPagamento;
     private BigDecimal comissao;
+    private String statusPedido;
 
-    public String getTipoFrete() {
-        return tipoFrete;
-    }
-
-    public void setTipoFrete(String tipoFrete) {
-        this.tipoFrete = tipoFrete;
-    }
-
-    public String getTipoVenda() {
-        return tipoVenda;
-    }
-
-    public void setTipoVenda(String tipoVenda) {
-        this.tipoVenda = tipoVenda;
-    }
 
     public BigDecimal getValorFrete() {
         return valorFrete;
@@ -40,11 +25,11 @@ public class PedidoDTO {
         this.valorFrete = valorFrete;
     }
 
-    public String getCondPagamento() {
+    public CondPagamento getCondPagamento() {
         return condPagamento;
     }
 
-    public void setCondPagamento(String condPagamento) {
+    public void setCondPagamento(CondPagamento condPagamento) {
         this.condPagamento = condPagamento;
     }
 
@@ -80,13 +65,37 @@ public class PedidoDTO {
         this.tipoPedido = tipoPedido;
     }
 
-    public PedidoDTO(Integer id, TipoPedido tipoPedido, Cliente cliente, String tipoFrete, String tipoVenda,
-                     BigDecimal valorFrete, String condPagamento, BigDecimal comissao) {
+    public TipoFrete getTipoFrete() {
+        return tipoFrete;
+    }
+
+    public void setTipoFrete(TipoFrete tipoFrete) {
+        this.tipoFrete = tipoFrete;
+    }
+
+    public FormaPagamento getFormaPagamento() {
+        return formaPagamento;
+    }
+
+    public void setFormaPagamento(FormaPagamento formaPagamento) {
+        this.formaPagamento = formaPagamento;
+    }
+
+    public String getStatusPedido() {
+        return statusPedido;
+    }
+
+    public void setStatusPedido(String statusPedido) {
+        this.statusPedido = statusPedido;
+    }
+
+    public PedidoDTO(Integer id, TipoPedido tipoPedido, Cliente cliente, TipoFrete tipoFrete, FormaPagamento formaPagamento,
+                     BigDecimal valorFrete, CondPagamento condPagamento, BigDecimal comissao) {
         this.id = id;
         this.tipoPedido = tipoPedido;
         this.cliente = cliente;
         this.tipoFrete = tipoFrete;
-        this.tipoVenda = tipoVenda;
+        this.formaPagamento = formaPagamento;
         this.valorFrete = valorFrete;
         this.condPagamento = condPagamento;
         this.comissao = comissao;

@@ -15,7 +15,7 @@
 	<name>vendas-api</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>13</java.version>
 		<squiggly.version>1.3.18</squiggly.version>
 		<spring-security-oauth2.version>2.3.7.RELEASE</spring-security-oauth2.version>
 		<spring-security-jwt.version>1.0.11.RELEASE</spring-security-jwt.version>

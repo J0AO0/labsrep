@@ -13,7 +13,7 @@ public class ProdutoFilter {
     private Categoria categoria;
     private BigDecimal preco;
     private String descricao;
-    private Boolean status;
+    private String status;
     private String qrCode;
     private String emailusuario;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -61,11 +61,11 @@ public class ProdutoFilter {
         this.descricao = descricao;
     }
 
-    public Boolean getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

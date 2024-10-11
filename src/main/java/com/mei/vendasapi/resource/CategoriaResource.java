@@ -39,10 +39,9 @@ public class CategoriaResource {
 	public ResponseEntity<?> lista() {
 	
 	List<Categoria> lista =  categoriaService.lista();
-		
 	return ResponseEntity.ok(lista);	
 	}
-	
+
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<?> buscarPorId(@PathVariable Integer id) {
@@ -77,7 +76,8 @@ public class CategoriaResource {
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Categoria> update(@Valid @RequestBody CategoriaDTO obj, @PathVariable Integer id) {
 		obj.setId(id);
-		Categoria obj1 = categoriaService.atualiza(obj);
+		Categoria novoobj = new Categoria(obj);
+		Categoria obj1 = categoriaService.atualiza(novoobj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
 				path("/{id}").buildAndExpand(obj1.getId()).toUri();
 		return ResponseEntity.created(uri).body(obj1);

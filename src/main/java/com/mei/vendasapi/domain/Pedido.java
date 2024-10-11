@@ -25,26 +25,32 @@ public class Pedido implements Serializable{
     private Cliente cliente;
     @ManyToOne
     private TipoPedido tipoPedido;
-    private String tipoFrete;
-    private String tipoVenda;
+    @ManyToOne
+    private TipoFrete tipoFrete;
+    @ManyToOne
+    private FormaPagamento formaPagamento;
     private BigDecimal valorFrete;
-    private String condPagamento;
+    @ManyToOne
+    private CondPagamento condPagamento;
     private BigDecimal comissao;
+    private  String statusPedido;
     @ManyToOne
     private Tenant tenant;
 
-    public Pedido(Integer id, Cliente cliente, TipoPedido tipoPedido, String tipoFrete, String tipoVenda,
-                  BigDecimal valorFrete, String condPagamento, BigDecimal comissao, Tenant tenant, List<LogSistema> logs) {
+    public Pedido(Integer id, Cliente cliente, TipoPedido tipoPedido, TipoFrete tipoFrete, FormaPagamento formaPagamento,
+                  BigDecimal valorFrete, CondPagamento condPagamento, BigDecimal comissao,
+                  Tenant tenant, List<LogSistema> logs, String statusPedido) {
         this.id = id;
         this.cliente = cliente;
         this.tipoPedido = tipoPedido;
         this.tipoFrete = tipoFrete;
-        this.tipoVenda = tipoVenda;
+        this.formaPagamento = formaPagamento;
         this.valorFrete = valorFrete;
         this.condPagamento = condPagamento;
         this.comissao = comissao;
         this.tenant = tenant;
         this.logs = logs;
+        this.statusPedido = statusPedido;
     }
 
     public Pedido() {
@@ -55,22 +61,6 @@ public class Pedido implements Serializable{
         return id;
     }
 
-    public String getTipoFrete() {
-        return tipoFrete;
-    }
-
-    public void setTipoFrete(String tipoFrete) {
-        this.tipoFrete = tipoFrete;
-    }
-
-    public String getTipoVenda() {
-        return tipoVenda;
-    }
-
-    public void setTipoVenda(String tipoVenda) {
-        this.tipoVenda = tipoVenda;
-    }
-
     public BigDecimal getValorFrete() {
         return valorFrete;
     }
@@ -79,11 +69,11 @@ public class Pedido implements Serializable{
         this.valorFrete = valorFrete;
     }
 
-    public String getCondPagamento() {
+    public CondPagamento getCondPagamento() {
         return condPagamento;
     }
 
-    public void setCondPagamento(String condPagamento) {
+    public void setCondPagamento(CondPagamento condPagamento) {
         this.condPagamento = condPagamento;
     }
 
@@ -119,6 +109,30 @@ public class Pedido implements Serializable{
         this.tipoPedido = tipoPedido;
     }
 
+    public TipoFrete getTipoFrete() {
+        return tipoFrete;
+    }
+
+    public void setTipoFrete(TipoFrete tipoFrete) {
+        this.tipoFrete = tipoFrete;
+    }
+
+    public FormaPagamento getFormaPagamento() {
+        return formaPagamento;
+    }
+
+    public void setFormaPagamento(FormaPagamento formaPagamento) {
+        this.formaPagamento = formaPagamento;
+    }
+
+    public String getStatusPedido() {
+        return statusPedido;
+    }
+
+    public void setStatusPedido(String statusPedido) {
+        this.statusPedido = statusPedido;
+    }
+
     public Pedido(PedidoDTO obj){
         this.id = obj.getId();
         this.cliente = obj.getCliente();
@@ -126,6 +140,12 @@ public class Pedido implements Serializable{
 
     public Pedido(PedidoNewDTO obj){
         this.id = obj.getId();
+        this.formaPagamento = obj.getFormaPagamento();
+        this.tipoPedido = obj.getTipoPedido();
+        this.tipoFrete = obj.getTipoFrete();
+        this.valorFrete = obj.getValorFrete();
+        this.condPagamento = obj.getCondPagamento();
+        this.comissao = obj.getComissao();
         this.cliente = obj.getCliente();
     }
 

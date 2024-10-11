@@ -42,13 +42,13 @@ public class EmpresaResource {
     @Autowired
     private EmpresaRepository empRepo;
 
-//    @RequestMapping(method = RequestMethod.GET)
-//    public ResponseEntity<?> lista() {
-//
-//        List<Empresa> lista =  empresaService.lista();
-//
-//        return ResponseEntity.ok(lista);
-//    }
+    @RequestMapping(value = "/empresapadrao",method = RequestMethod.GET)
+    public ResponseEntity<?> lista() {
+
+        List<Empresa> lista =  empresaService.lista();
+
+        return ResponseEntity.ok(lista);
+    }
 
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

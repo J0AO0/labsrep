@@ -7,6 +7,9 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.mei.vendasapi.domain.Empresa;
+import com.mei.vendasapi.domain.dto.flat.EmpresaFlat;
+import com.mei.vendasapi.repository.filter.EmpresaFilter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -71,13 +74,13 @@ public class ProdutoResource {
 	@Autowired
 	private FotoProdutoModelAssembler fotoProdutoModelAssembler;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<?> lista() {
-
-        List<ProdutoFlat> lista =  produtoService.findAllSql();
-
-        return ResponseEntity.ok(lista);
-    }
+//    @RequestMapping(method = RequestMethod.GET)
+//    public ResponseEntity<?> lista() {
+//
+//        List<ProdutoFlat> lista =  produtoService.findAllSql();
+//
+//        return ResponseEntity.ok(lista);
+//    }
 
 
     @CheckSecurity.Produto.PodeConsultar
@@ -87,6 +90,12 @@ public class ProdutoResource {
         return ResponseEntity.ok(obj);
     }
 
+    @RequestMapping( method = RequestMethod.GET)
+    public Page<ProdutoFlat> findAllPag(ProdutoFilter produtoFilter, Pageable pageable) {
+        Page<Produto> produtos = produtoRepo.filtrar(produtoFilter, pageable);
+        Page<ProdutoFlat> produtosFlat = produtoService.mudarProdutoParaFlat(produtos);
+        return produtosFlat;
+    }
 
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     public ResponseEntity<Page<Produto>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -96,9 +105,6 @@ public class ProdutoResource {
         Page<Produto> list = produtoService.findPage(page, linesPerPage, orderBy, direction);
         return ResponseEntity.ok().body(list);
     }
-
-
-
 
     @CheckSecurity.Produto.PodeCadastrar
     @RequestMapping(method = RequestMethod.POST)
@@ -117,7 +123,9 @@ public class ProdutoResource {
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Produto> update(@Valid @RequestBody ProdutoDTO obj, @PathVariable Integer id) {
         obj.setId(id);
-        Produto obj1 = produtoService.atualiza(obj);
+
+        Produto novoObj = new Produto(obj);
+        Produto obj1 = produtoService.atualiza(novoObj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
                 path("/{id}").buildAndExpand(obj1.getId()).toUri();
         return ResponseEntity.created(uri).body(obj1);
@@ -136,15 +144,6 @@ public class ProdutoResource {
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         produtoService.delete(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @CheckSecurity.Produto.PodeConsultar
-    @RequestMapping(value = "/filtro", method = RequestMethod.GET)
-    public Page<ProdutoFlat> findAllPag(ProdutoFilter produtoFilter, Pageable pageable) {
-        Page<Produto> prods = produtoRepo.filtrar(produtoFilter, pageable);
-        Page<ProdutoFlat> prodsflat = produtoService.mudarProdutoParaFlat(prods);
-        return prodsflat;
-
     }
 
     @PutMapping(value = "/{produtoId}/foto" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

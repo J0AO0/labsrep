@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import com.mei.vendasapi.domain.Empresa;
+import com.mei.vendasapi.domain.dto.flat.EmpresaFlat;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -75,15 +77,14 @@ public class ProdutoService {
         return repo.findAll(pageRequest);
     }
 
-    public Produto atualiza(ProdutoDTO obj) {
-        try {
+    public Produto atualiza(Produto obj) {
         	Produto resEst =  repo.findPorId(obj.getId());
-    			
+            resEst.setTenant(tenantUsuario.buscarOuFalhar());
             BeanUtils.copyProperties(obj, resEst, "id");
-            return repo.save(resEst);
-    		} catch (DataIntegrityViolationException e) {
-    			throw new EntidadeNaoEncontradaExcepition(String.format("Categoria não encontrado", obj.getId()));
-    		}
+            resEst.setTenant(tenantUsuario.buscarOuFalhar());
+            repo.save(resEst);
+            logProduto(resEst, "Update");
+            return resEst;
         }
 
     public void delete (Integer id) {

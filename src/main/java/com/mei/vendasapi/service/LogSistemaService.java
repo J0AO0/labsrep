@@ -66,4 +66,35 @@ public class LogSistemaService {
 		return log;
 	}
 
+	public LogSistema insert(FormaPagamento obj, String acao) {
+		String usuarioLogado = meiSecurity.getUsuario();
+		FormaPagamento formaPagamento = new FormaPagamento();
+		formaPagamento.setTenant(tenantUsuario.buscarOuFalhar());
+
+	    String comando = (acao + obj.toString());
+		LogSistema log = new LogSistema(null,usuarioLogado,comando,OffsetDateTime.now(),obj);
+		return log;
+	}
+
+
+	public LogSistema insert(TipoFrete obj, String acao) {
+		String usuarioLogado = meiSecurity.getUsuario();
+		TipoFrete tipoFrete = new TipoFrete();
+		tipoFrete.setTenant(tenantUsuario.buscarOuFalhar());
+	    String comando = (acao + obj.toString());
+		LogSistema log = new LogSistema(null,usuarioLogado,comando,OffsetDateTime.now(),obj);
+		return log;
+	}
+	public LogSistema insert(CondPagamento obj, String acao) {
+		String usuarioLogado = meiSecurity.getUsuario();
+		CondPagamento condPagamento = new CondPagamento();
+		condPagamento.setTenant(tenantUsuario.buscarOuFalhar());
+	    String comando = (acao + obj.toString());
+		LogSistema log = new LogSistema(null,usuarioLogado,comando,OffsetDateTime.now(),obj);
+		return log;
+	}
+
+
+
+
 }

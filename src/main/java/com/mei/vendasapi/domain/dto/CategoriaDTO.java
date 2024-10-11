@@ -3,7 +3,7 @@ package com.mei.vendasapi.domain.dto;
 import com.mei.vendasapi.validation.categoria.CategoriaInsert;
 import com.mei.vendasapi.validation.categoria.CategoriaUpdate;
 
-@CategoriaUpdate
+//@CategoriaUpdate
 public class CategoriaDTO {
 	private Integer id;
 	private String nome;

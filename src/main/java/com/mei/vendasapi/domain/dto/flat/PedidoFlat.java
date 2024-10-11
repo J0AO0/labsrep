@@ -1,7 +1,6 @@
 package com.mei.vendasapi.domain.dto.flat;
 
-import com.mei.vendasapi.domain.Cliente;
-import com.mei.vendasapi.domain.Pedido;
+import com.mei.vendasapi.domain.*;
 
 import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
@@ -10,13 +9,14 @@ import java.time.OffsetDateTime;
 public class PedidoFlat {
     private Integer id;
     private Cliente cliente;
-    private String tipoFrete;
-    private String tipoVenda;
+    private TipoFrete tipoFrete;
+    private FormaPagamento formaPagamento;
     private BigDecimal valorFrete;
-    private String condPagamento;
+    private CondPagamento condPagamento;
     private BigDecimal comissao;
     private OffsetDateTime datagravacao;
     private String emailusuario;
+    private String statusPedido;
 
     public Integer getId() {
         return id;
@@ -50,22 +50,6 @@ public class PedidoFlat {
         this.emailusuario = emailusuario;
     }
 
-    public String getTipoFrete() {
-        return tipoFrete;
-    }
-
-    public void setTipoFrete(String tipoFrete) {
-        this.tipoFrete = tipoFrete;
-    }
-
-    public String getTipoVenda() {
-        return tipoVenda;
-    }
-
-    public void setTipoVenda(String tipoVenda) {
-        this.tipoVenda = tipoVenda;
-    }
-
     public BigDecimal getValorFrete() {
         return valorFrete;
     }
@@ -74,11 +58,11 @@ public class PedidoFlat {
         this.valorFrete = valorFrete;
     }
 
-    public String getCondPagamento() {
+    public CondPagamento getCondPagamento() {
         return condPagamento;
     }
 
-    public void setCondPagamento(String condPagamento) {
+    public void setCondPagamento(CondPagamento condPagamento) {
         this.condPagamento = condPagamento;
     }
 
@@ -90,12 +74,36 @@ public class PedidoFlat {
         this.comissao = comissao;
     }
 
-    public PedidoFlat(Integer id, Cliente cliente, String tipoFrete, String tipoVenda, BigDecimal valorFrete,
-                      String condPagamento, BigDecimal comissao, OffsetDateTime datagravacao, String emailusuario) {
+    public TipoFrete getTipoFrete() {
+        return tipoFrete;
+    }
+
+    public void setTipoFrete(TipoFrete tipoFrete) {
+        this.tipoFrete = tipoFrete;
+    }
+
+    public FormaPagamento getFormaPagamento() {
+        return formaPagamento;
+    }
+
+    public void setFormaPagamento(FormaPagamento formaPagamento) {
+        this.formaPagamento = formaPagamento;
+    }
+
+    public String getStatusPedido() {
+        return statusPedido;
+    }
+
+    public void setStatusPedido(String statusPedido) {
+        this.statusPedido = statusPedido;
+    }
+
+    public PedidoFlat(Integer id, Cliente cliente, TipoFrete tipoFrete, FormaPagamento formaPagamento, BigDecimal valorFrete,
+                      CondPagamento condPagamento, BigDecimal comissao, OffsetDateTime datagravacao, String emailusuario) {
         this.id = id;
         this.cliente = cliente;
         this.tipoFrete = tipoFrete;
-        this.tipoVenda = tipoVenda;
+        this.formaPagamento = formaPagamento;
         this.valorFrete = valorFrete;
         this.condPagamento = condPagamento;
         this.comissao = comissao;
@@ -106,6 +114,12 @@ public class PedidoFlat {
     public PedidoFlat(Pedido ped, String ok) {
         this.id = ped.getId();
         this.cliente = ped.getCliente();
+        this.formaPagamento = ped.getFormaPagamento();
+        this.valorFrete = ped.getValorFrete();
+        this.condPagamento = ped.getCondPagamento();
+        this.comissao = ped.getComissao();
+        this.tipoFrete = ped.getTipoFrete();
+        this.statusPedido = ped.getStatusPedido();
         this.datagravacao = ped.getLogs().getDatagravacao();
         this.emailusuario = ped.getLogs().getEmailUsuario();
 

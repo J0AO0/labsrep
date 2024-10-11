@@ -1,2 +1,28 @@
+INSERT INTO tenant  VALUES (1 ,'GASOT E MARQUES SERVICO DE RADIOLOGIA LTDA');
+
+INSERT INTO empresa (id, cidade, razaosocial, cpfoucnpj, naturezapessoa, uf, cep, logradouro, numero, bairro, whats, tenant_id, status, editar)
+VALUES (1, 'ARAPONGAS', 'GASOT E MARQUES SERVICO DE RADIOLOGIA LTDA', '35502138000173', 'JURIDICA', 'PR', '86703530', 'PEPIRA DE CRISTA AMARELA', '81', 'VILA COELHO', '(43)9841-18809', 1, 1, 1);
+
 INSERT INTO usuario (id, email, gtenantativo, login, nome, senha, status, telefone, tenantativo)
 VALUES (1, 'admin@admin.com', NULL, 'RAIZ', NULL, '$2a$10$ym4FHvnOCErbHb49jq8FzekqTSYTAsqhDX4ntJ00XC0h8Iganq0Nm', 1, '1', 0);
+
+INSERT INTO usuario (id, email, gtenantativo, login, nome, senha, status, telefone, tenantativo) value (3, 'controle@gmail.com', null, 'Controle', 'Controle', 1 , 1 , 0 , NULL);
+
+INSERT INTO usuario_empresa (id_usuario, id_empresa, empresapadrao, tenant_id) VALUES (1, 1, 1, 1);
+
+INSERT INTO classepermissao (id, nome) VALUES (5, 'Usuario'), (7, 'Empresa');
+INSERT INTO permissao (id, descricao, classepermissao_id) VALUES
+(21, 'C_USU', NULL), (22, 'U_USU', NULL), (23, 'D_USU', NULL),
+(24, 'R_USU', NULL), (25, 'S_USU', NULL), (32, 'C_EMP', NULL),
+(33, 'U_EMP', NULL), (34, 'D_EMPD', NULL), (35, 'R_EMP', NULL), (36, 'S_EMP', NULL);
+
+
+INSERT INTO usuario_permissao (id_usuario, id_permissao) VALUES
+(1, 21), (1, 22), (1, 23), (1, 24), (1, 25), (1, 32), (1, 33), (1, 34), (1, 35);
+
+
+
+INSERT INTO usuario (id, email, gtenantativo, login, nome, senha, status, telefone, tenantativo) value (3, 'controle@gmail.com', null, 'Controle', 'Controle', 1 , 1 , 0 , NULL);
+
+ALTER TABLE log_sistema
+MODIFY comando VARCHAR(10000);

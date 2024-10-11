@@ -114,7 +114,23 @@ public class LogSistema implements Serializable {
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "categoria_id", nullable = false)
-	private Categoria categoria;
+	private Categoria categoria;@JsonIgnore
+
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "forma_pagamento_id", nullable = false)
+	private FormaPagamento formaPagamento;
+
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "tipo_frete_id", nullable = false)
+	@JsonIgnore
+	private TipoFrete tipoFrete;
+
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "cond_pagamento_id", nullable = false)
+	@JsonIgnore
+	private CondPagamento condPagamento;
+
+
 
 	public LogSistema() {
 
@@ -176,8 +192,28 @@ public class LogSistema implements Serializable {
 		this.cliente = cliente;
 	}
 
+	public FormaPagamento getFormaPagamento() {return formaPagamento;}
+
+	public void setFormaPagamento(FormaPagamento formaPagamento) {this.formaPagamento = formaPagamento;}
+
+	public TipoFrete getTipoFrete() {
+		return tipoFrete;
+	}
+
+	public void setTipoFrete(TipoFrete tipoFrete) {
+		this.tipoFrete = tipoFrete;
+	}
+
+	public CondPagamento getCondPagamento() {
+		return condPagamento;
+	}
+
+	public void setCondPagamento(CondPagamento condPagamento) {
+		this.condPagamento = condPagamento;
+	}
+
 	public LogSistema(Integer id, String usuarioLogado, String comando, OffsetDateTime datagravacao, Categoria conv,
-			Tenant tenant) {
+					  Tenant tenant) {
 		this.id = id;
 		this.emailUsuario = usuarioLogado;
 		this.comando = comando;
@@ -230,6 +266,32 @@ public class LogSistema implements Serializable {
 		this.comando = comando;
 		this.datagravacao = datagravacao;
 		this.pedido = pedido;
+		this.status = true;
+	}
+
+	public LogSistema(Integer id, String usuarioLogado, String comando, OffsetDateTime datagravacao, TipoFrete tipoFrete) {
+		this.id = id;
+		this.emailUsuario = usuarioLogado;
+		this.comando = comando;
+		this.datagravacao = datagravacao;
+		this.tipoFrete = tipoFrete;
+		this.status = true;
+	}
+
+	public LogSistema(Integer id, String usuarioLogado, String comando, OffsetDateTime datagravacao, FormaPagamento formaPagamento) {
+		this.id = id;
+		this.emailUsuario = usuarioLogado;
+		this.comando = comando;
+		this.datagravacao = datagravacao;
+		this.formaPagamento = formaPagamento;
+		this.status = true;
+	}
+	public LogSistema(Integer id, String usuarioLogado, String comando, OffsetDateTime datagravacao, CondPagamento condPagamento) {
+		this.id = id;
+		this.emailUsuario = usuarioLogado;
+		this.comando = comando;
+		this.datagravacao = datagravacao;
+		this.condPagamento = condPagamento;
 		this.status = true;
 	}
 

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import com.mei.vendasapi.domain.dto.flat.CategoriaFlat;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
@@ -66,10 +67,13 @@ public class CategoriaService {
          return resEst;
     }
 
-    public Categoria atualiza(CategoriaDTO obj) {
+    public Categoria atualiza(Categoria obj) {
         Categoria resEst =  repo.findPorId(obj.getId());
-        resEst.setNome(obj.getNome());
-        resEst.setStatus(obj.getStatus());
+        resEst.setTenant(tenantUsuario.buscarOuFalhar());
+
+        BeanUtils.copyProperties(obj, resEst, "id");
+        resEst.setTenant(tenantUsuario.buscarOuFalhar());
+        logCategoria(resEst, "Update");
         return repo.save(resEst);
     }
 
