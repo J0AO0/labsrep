@@ -53,12 +53,12 @@ public class UsuarioResource {
         Usuario obj = service.find(id);
         return ResponseEntity.ok().body(obj);
     }
-//    @CheckSecurity.Usuario.PodeConsultar
-//    @RequestMapping(method = RequestMethod.GET)
-//    public ResponseEntity<List<UsuarioFlat>> findAll() {
-//        List<UsuarioFlat> list = service.findAllSQL();
-//        return ResponseEntity.ok().body(list);
-//    }
+    @CheckSecurity.Usuario.PodeConsultar
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    public ResponseEntity<List<UsuarioFlat>> findAll() {
+        List<UsuarioFlat> list = service.findAllSQL();
+        return ResponseEntity.ok().body(list);
+    }
     @CheckSecurity.Usuario.PodeConsultar
     @RequestMapping(value = "/inativos", method = RequestMethod.GET)
     public ResponseEntity<List<UsuarioFlat>> findAllInativo() {

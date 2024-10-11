@@ -13,6 +13,7 @@ import com.mei.vendasapi.domain.dto.flat.CategoriaFlat;
 import com.mei.vendasapi.repository.LogSistemaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,8 +25,7 @@ import com.mei.vendasapi.repository.EmpresaRepository;
 import com.mei.vendasapi.service.exception.EntidadeNaoEncontradaExcepition;
 import com.mei.vendasapi.service.util.Tenantuser;
 
-@RestController
-@RequestMapping(value = "/empresas")
+@Service
 public class EmpresaService {
 
     @Autowired
