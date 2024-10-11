@@ -140,8 +140,8 @@ public class UsuarioFlat {
         this.nome = usu.getNome();
         this.login = usu.getLogin();
         this.email = usu.getEmail();
-        //this.senha = senha;
-        //this.permissoes = permissoes;
+        this.datagravacao = usu.getLogs().getDatagravacao();
+        this.emailusuario = usu.getLogs().getEmailUsuario();
     }
 
     @Override
@@ -149,6 +149,7 @@ public class UsuarioFlat {
         return "UsuarioDtoFlat [id=" + id + ", status=" + status + ", nome=" + nome + ", login=" + login + ", email="
                 + email + ", permissoes=" + permissoes + "]";
     }
+
 
 
 

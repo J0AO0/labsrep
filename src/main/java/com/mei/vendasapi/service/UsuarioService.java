@@ -151,7 +151,7 @@ public class UsuarioService {
         repoPermissao.saveAll(atualizado.getPermissoes());
         repo.save(atualizado);
         inserirEmpUsu(obj, atualizado);
-        logUsuario(atualizado, "inserir");
+        logUsuario(atualizado, "insert");
         return obj;
     }
     private void inserirEmpUsu(UsuarioFlat obj, Usuario atualizado) {
