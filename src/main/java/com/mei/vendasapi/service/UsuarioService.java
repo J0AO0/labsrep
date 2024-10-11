@@ -80,27 +80,34 @@ public class UsuarioService {
         List<EmpresaRetornUsuario> empR = new ArrayList<EmpresaRetornUsuario>();
         usuDto.setPermissoes(usu.getPermissoes());
         for(Empresa emp:empresas) {
-            EmpresaRetornUsuario empRetorno = new EmpresaRetornUsuario(emp);
-            Boolean empPadrao = false;
-            Boolean empUsuario = false;
-            UsuarioEmpresa  e = repoUsuarioEmpresa.verificaEmpPadrao(emp.getId(), id);
-            System.out.println(e);
-//            Integer empP = repoUsuarioEmpresa.verificaEmpPadrao(emp.getId(), id);
-            if(e == null) {
-                empPadrao = false;
-                empUsuario = false;
-
-            }  else {
-                empPadrao = true;
-                empUsuario = true;
-
-            }
-
-            empRetorno.setEmpresaPadrao(empPadrao);
-            empRetorno.setEmpresasUsuario(empUsuario);
-
-            empR.add(empRetorno);
-        }
+			EmpresaRetornUsuario empRetorno = new EmpresaRetornUsuario(emp);
+			Boolean empPadrao = false;
+			Boolean empUsuario = false;
+			Integer empP = repoUsuarioEmpresa.verificaEmpPadrao(emp.getId(), id);		
+			if(empP == null) {
+				empPadrao = false;
+				empUsuario = false;
+				
+			}  else {
+				if(empP == 0) {
+					empPadrao = false;
+					empUsuario = true;
+				}else {
+					empPadrao = true;
+					empUsuario = true;
+					
+				}
+				
+			}
+			
+			
+			
+						
+			empRetorno.setEmpresaPadrao(empPadrao);
+			empRetorno.setEmpresasUsuario(empUsuario);
+			
+			empR.add(empRetorno);
+		}
 //		List<Empresa> empresasOutras = repoempresa.findAllSqlEmpsNotInGtenantComUsuario(id);
 //		for(Empresa emp: empresasOutras ) {
 //			EmpresaRetornUsuario empRetornoOutras = new EmpresaRetornUsuario(emp);

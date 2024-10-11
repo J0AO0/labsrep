@@ -14,34 +14,15 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UsuarioEmpresaRepository extends JpaRepository<UsuarioEmpresa, Integer> {
 
-//    @Query(value = "select empresapadrao from usuario_empresa where id_empresa = ? and id_usuario = ?", nativeQuery = true)
-//    Integer verificaEmpPadrao(Integer id, Integer id2);
-
-//
-//    @Query(value= "select empresapadrao from usuario_empresa where id_empresa = ? and id_usuario = ?", nativeQuery = true)
-//    UsuarioEmpresa verificaEmpPadrao(Integer id, Integer id2);
-
-
-
-
-    @Query(value= "select id_usuario from usuario_empresa where id_empresa = ? and id_usuario = ?", nativeQuery = true)
-    Integer verificaEmpUsuario(Integer id, Integer id2);
-
-
-
+	@Query(value= "select empresapadrao from usuario_empresa where id_empresa = ? and id_usuario = ?", nativeQuery = true)
+	Integer verificaEmpPadrao(Integer id, Integer id2);
+	@Query(value= "select id_usuario from usuario_empresa where id_empresa = ? and id_usuario = ?", nativeQuery = true)
+	Integer verificaEmpUsuario(Integer id, Integer id2);
     @Modifying
     @Transactional
-    @Query(value = "delete from usuario_empresa where id_usuario = ?", nativeQuery = true)
-    void deleteEmpPorUsuario(Integer id);
-
-
-    @Query(value= "select * from usuario_empresa where id_empresa = ? and id_usuario = ?", nativeQuery = true)
-    UsuarioEmpresa verificaEmpPadrao(Integer id, Integer id2);
-
-//
-//    @Query(value = "select * from usuario_empresa where id_empresa = ? and id_usuario = ?", nativeQuery = true)
-//    UsuarioEmpresa verificaEmpPadrao(Integer id, Integer id2);
-
+	@Query(value= "delete from usuario_empresa where id_usuario = ?", nativeQuery = true)
+	void deleteEmpPorUsuario(Integer id);
+	
 
 
 }
