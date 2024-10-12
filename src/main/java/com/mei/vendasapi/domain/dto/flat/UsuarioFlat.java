@@ -140,6 +140,8 @@ public class UsuarioFlat {
         this.nome = usu.getNome();
         this.login = usu.getLogin();
         this.email = usu.getEmail();
+        this.datagravacao = usu.getLogs().getDatagravacao();
+        this.emailusuario = usu.getLogs().getEmailUsuario();
         //this.senha = senha;
         //this.permissoes = permissoes;
     }

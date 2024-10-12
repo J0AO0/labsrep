@@ -49,10 +49,10 @@ public class CondPagamentoService {
     }
 
     @Transactional
-    public CondPagamento insert(CondPagamento obj){
+    public CondPagamento insert(CondPagamentoNewDTO obj){
         obj.setId(null);
-        CondPagamento resEst = new CondPagamento();
-        resEst.getDescricao();
+        CondPagamento resEst = new CondPagamento(obj);
+        resEst.setDescricao(obj.getDescricao());
         resEst.setStatus(obj.getStatus());
         resEst.setTenant(tenantUsuario.buscarOuFalhar());
         repo.save(resEst);

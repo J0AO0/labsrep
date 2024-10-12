@@ -1,20 +1,20 @@
 -- CREATE TABELAS
 CREATE TABLE cond_pagamento (
-                                id INTEGER PRIMARY KEY,
+                                id INTEGER PRIMARY KEY AUTO_INCREMENT ,
                                 descricao VARCHAR(255) NOT NULL,
                                 tenant_id INTEGER,
                                 status BOOLEAN,
                                 FOREIGN KEY (tenant_id) REFERENCES Tenant(id)
 );
 CREATE TABLE forma_pagamento (
-                                 id INTEGER PRIMARY KEY,
+                                 id INTEGER PRIMARY KEY AUTO_INCREMENT ,
                                  descricao VARCHAR(255) NOT NULL,
                                  tenant_id INTEGER,
                                  status BOOLEAN,
                                  FOREIGN KEY (tenant_id) REFERENCES Tenant(id)
 );
 CREATE TABLE tipo_frete (
-                            id INTEGER PRIMARY KEY,
+                            id INTEGER PRIMARY KEY AUTO_INCREMENT ,
                             descricao VARCHAR(255) NOT NULL,
                             tenant_id INTEGER,
                             status BOOLEAN,

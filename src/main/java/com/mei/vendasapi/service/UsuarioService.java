@@ -146,7 +146,7 @@ public class UsuarioService {
         atualizado.setStatus(true);
         atualizado.setTenant(tenantUsuario.buscarOuFalhar());
         atualizado.setTenantativo(tenantUsuario.buscarOuFalhar().getId());
-        atualizado.setGtenantativo(0);
+        atualizado.setGtenantativo(1);
         atualizado.setSenha(pe.encode(obj.getSenha()));
         repoPermissao.saveAll(atualizado.getPermissoes());
         repo.save(atualizado);

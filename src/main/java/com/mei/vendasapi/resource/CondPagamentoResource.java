@@ -51,7 +51,7 @@ public class CondPagamentoResource {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<CondPagamento> criarCondPagamento(@Valid @RequestBody CondPagamentoNewDTO objNewDTO) {
         CondPagamento novoObj = modelMapper.map(objNewDTO, CondPagamento.class);
-        CondPagamento objNovo = condPagamentoService.insert(novoObj);
+        CondPagamento objNovo = condPagamentoService.insert(objNewDTO);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
                 path("/{id}").buildAndExpand(objNovo.getId()).toUri();

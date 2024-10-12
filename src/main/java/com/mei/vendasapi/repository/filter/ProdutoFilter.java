@@ -10,7 +10,7 @@ import java.util.Date;
 public class ProdutoFilter {
     private Integer id;
     private String name;
-    private Categoria categoria;
+    private String categoria;
     private BigDecimal preco;
     private String descricao;
     private String status;
@@ -37,15 +37,17 @@ public class ProdutoFilter {
         this.name = name;
     }
 
-    public Categoria getCategoria() {
-        return categoria;
-    }
 
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
-    }
 
-    public BigDecimal getPreco() {
+    public String getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(String categoria) {
+		this.categoria = categoria;
+	}
+
+	public BigDecimal getPreco() {
         return preco;
     }
 
