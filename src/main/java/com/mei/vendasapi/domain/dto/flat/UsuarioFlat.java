@@ -142,6 +142,8 @@ public class UsuarioFlat {
         this.email = usu.getEmail();
         this.datagravacao = usu.getLogs().getDatagravacao();
         this.emailusuario = usu.getLogs().getEmailUsuario();
+        //this.senha = senha;
+        //this.permissoes = permissoes;
     }
 
     @Override

@@ -5,6 +5,8 @@ import com.mei.vendasapi.domain.dto.CondPagamentoDTO;
 import com.mei.vendasapi.domain.dto.CondPagamentoNewDTO;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,9 +72,10 @@ public class CondPagamento {
         this.descricao = obj.getDescricao();
     }
 
-    public CondPagamento(CondPagamentoNewDTO obj){
+    public CondPagamento(@Valid CondPagamentoNewDTO obj){
         this.id = obj.getId();
         this.descricao = obj.getDescricao();
+        
     }
 
     @JsonIgnore
