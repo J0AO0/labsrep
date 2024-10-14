@@ -90,6 +90,7 @@ public class ProdutoResource {
         return ResponseEntity.ok(obj);
     }
 
+    @CheckSecurity.Produto.PodeConsultar
     @RequestMapping( method = RequestMethod.GET)
     public Page<ProdutoFlat> findAllPag(ProdutoFilter produtoFilter, Pageable pageable) {
         Page<Produto> produtos = produtoRepo.filtrar(produtoFilter, pageable);
@@ -97,6 +98,7 @@ public class ProdutoResource {
         return produtosFlat;
     }
 
+    @CheckSecurity.Produto.PodeConsultar
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     public ResponseEntity<Page<Produto>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
                                                     @RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
@@ -146,6 +148,7 @@ public class ProdutoResource {
         return ResponseEntity.noContent().build();
     }
 
+    @CheckSecurity.Produto.PodeCadastrar
     @PutMapping(value = "/{produtoId}/foto" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public FotoProdutoDTO atualizarFoto(@PathVariable Integer produtoId, @Valid FotoProdutoInput fotoProdutoInput) throws IOException {
 		Produto produto = produtoService.buscarOuFalhar( produtoId);
@@ -163,7 +166,8 @@ public class ProdutoResource {
 		
 		return fotoProdutoModelAssembler.toModel(fotoSalva);
 	}
-	
+
+    @CheckSecurity.Produto.PodeExcluir
 	@DeleteMapping(value = "/{produtoId}/foto")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void excluir(@PathVariable Integer produtoId) {
@@ -176,7 +180,8 @@ public class ProdutoResource {
 		
 		return fotoProdutoModelAssembler.toModel(fotoProduto);
 	}
-	
+
+    @CheckSecurity.Produto.PodeConsultar
 	@GetMapping(value = "/{produtoId}/fotos")
 	public ResponseEntity<InputStreamResource> servir(@PathVariable Integer produtoId, @RequestHeader(name = "accept") String acceptHeader) 
 					throws HttpMediaTypeNotAcceptableException {

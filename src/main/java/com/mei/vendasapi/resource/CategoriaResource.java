@@ -6,6 +6,8 @@ import java.util.List;
 import com.mei.vendasapi.domain.dto.flat.CategoriaFlat;
 import com.mei.vendasapi.repository.CategoriaRepository;
 import com.mei.vendasapi.repository.filter.CategoriaFilter;
+import com.mei.vendasapi.security.resource.CheckSecurity;
+import org.hibernate.annotations.Check;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,7 +36,8 @@ public class CategoriaResource {
 
 	@Autowired
 	private CategoriaRepository catRepo;
-	
+
+	@CheckSecurity.Categoria.PodeConsultar
 	@RequestMapping(value = "/lista" ,method = RequestMethod.GET)
 	public ResponseEntity<?> lista() {
 	
@@ -42,14 +45,14 @@ public class CategoriaResource {
 	return ResponseEntity.ok(lista);	
 	}
 
-	
+	@CheckSecurity.Categoria.PodeConsultar
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<?> buscarPorId(@PathVariable Integer id) {
 		Categoria obj = categoriaService.buscarOuFalhar(id);
 		return ResponseEntity.ok(obj);
 	}
 
-
+	@CheckSecurity.Categoria.PodeConsultar
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity<Page<Categoria>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
 												   @RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
@@ -60,7 +63,7 @@ public class CategoriaResource {
 	}
 
 
-	
+	@CheckSecurity.Categoria.PodeCadastrar
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Categoria> criarCategoria(@Valid @RequestBody CategoriaNewDTO objNewDTO) {
 	Categoria novoObj = modelMapper.map(objNewDTO, Categoria.class);
@@ -73,6 +76,7 @@ public class CategoriaResource {
 	}
 
 
+	@CheckSecurity.Categoria.PodeAtualizar
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Categoria> update(@Valid @RequestBody CategoriaDTO obj, @PathVariable Integer id) {
 		obj.setId(id);
@@ -83,19 +87,22 @@ public class CategoriaResource {
 		return ResponseEntity.created(uri).body(obj1);
 
 	}
-	
+
+	@CheckSecurity.Categoria.PodeAlterarStatus
 	@RequestMapping(value ="/{id}/status",method = RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
     public void inativar(@RequestBody Boolean obj,@PathVariable int id)	{
 		categoriaService.status(obj,id);
 	}
-	
+
+	@CheckSecurity.Categoria.PodeExcluir
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		categoriaService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
 
+	@CheckSecurity.Categoria.PodeConsultar
 	@RequestMapping( method = RequestMethod.GET)
 	public Page<CategoriaFlat> findAllPag(CategoriaFilter pacienteFilter, Pageable pageable) {
 		Page<Categoria> cats = catRepo.filtrar(pacienteFilter, pageable);

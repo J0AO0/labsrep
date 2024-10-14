@@ -8,6 +8,7 @@ import com.mei.vendasapi.domain.dto.flat.FormaPagamentoFlat;
 import com.mei.vendasapi.domain.dto.flat.TipoFreteFlat;
 import com.mei.vendasapi.repository.TipoFreteRepository;
 import com.mei.vendasapi.repository.TipoFreteRepository;
+import com.mei.vendasapi.security.resource.CheckSecurity;
 import com.mei.vendasapi.service.TipoFreteService;
 import com.mei.vendasapi.service.TipoFreteService;
 import org.modelmapper.ModelMapper;
@@ -34,7 +35,7 @@ public class TipoFreteResource {
     @Autowired
     private ModelMapper modelMapper;
 
-
+    @CheckSecurity.TipoFrete.PodeConsultar
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> lista() {
 
@@ -42,7 +43,7 @@ public class TipoFreteResource {
         return ResponseEntity.ok(list);
     }
 
-
+    @CheckSecurity.TipoFrete.PodeConsultar
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> buscarPorId(@PathVariable Integer id) {
         TipoFrete obj = tipoFreteService.buscarOuFalhar(id);
@@ -50,7 +51,7 @@ public class TipoFreteResource {
     }
 
 
-
+    @CheckSecurity.TipoFrete.PodeCadastrar
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<TipoFrete> criarTipoFrete(@Valid @RequestBody TipoFreteNewDTO objNewDTO) {
         TipoFrete novoObj = modelMapper.map(objNewDTO, TipoFrete.class);
@@ -62,7 +63,7 @@ public class TipoFreteResource {
         return ResponseEntity.created(uri).body(novoObj);
     }
 
-
+    @CheckSecurity.TipoFrete.PodeAtualizar
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<TipoFrete> update(@Valid @RequestBody TipoFreteDTO obj, @PathVariable Integer id) {
         obj.setId(id);
@@ -74,19 +75,21 @@ public class TipoFreteResource {
 
     }
 
+    @CheckSecurity.TipoFrete.PodeAlterarStatus
     @RequestMapping(value ="/{id}/status",method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void inativar(@RequestBody Boolean obj,@PathVariable int id)	{
         tipoFreteService.status(obj,id);
     }
 
+    @CheckSecurity.TipoFrete.PodeExcluir
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         tipoFreteService.delete(id);
         return ResponseEntity.noContent().build();
     }
-    
-    
+
+    @CheckSecurity.TipoFrete.PodeConsultar
 	@RequestMapping(value = "/inativos", method = RequestMethod.GET)
 	public ResponseEntity<List<TipoFreteFlat>> findAllInativo() {
 		List<TipoFreteFlat> list = tipoFreteService.findAllSqlInativo();

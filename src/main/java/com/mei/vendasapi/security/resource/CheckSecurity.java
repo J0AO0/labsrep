@@ -153,6 +153,87 @@ public @interface CheckSecurity {
         @Target(METHOD)
         public @interface PodeAlterarStatus {}
 
+    }    public @interface CondPagamento {
+
+        @PreAuthorize("hasAuthority('C_COND')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeCadastrar {}
+
+        @PreAuthorize("hasAuthority('D_COND')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeExcluir {}
+
+        @PreAuthorize("hasAuthority('U_COND')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeAtualizar {}
+
+        @PreAuthorize("hasAuthority('R_COND')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeConsultar {}
+
+        @PreAuthorize("hasAuthority('S_COND')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeAlterarStatus {}
+
+    }    public @interface TipoFrete {
+
+        @PreAuthorize("hasAuthority('C_TIPF')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeCadastrar {}
+
+        @PreAuthorize("hasAuthority('D_TIPF')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeExcluir {}
+
+        @PreAuthorize("hasAuthority('U_TIPF')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeAtualizar {}
+
+        @PreAuthorize("hasAuthority('R_TIPF')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeConsultar {}
+
+        @PreAuthorize("hasAuthority('S_TIPF')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeAlterarStatus {}
+
+    }    public @interface FormaPagamento {
+
+        @PreAuthorize("hasAuthority('C_FORMP')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeCadastrar {}
+
+        @PreAuthorize("hasAuthority('D_FORMP')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeExcluir {}
+
+        @PreAuthorize("hasAuthority('U_FORMP')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeAtualizar {}
+
+        @PreAuthorize("hasAuthority('R_FORMP')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeConsultar {}
+
+        @PreAuthorize("hasAuthority('S_FORMP')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeAlterarStatus {}
+
     }
 
 }

@@ -180,9 +180,12 @@ public class Usuario implements Serializable {
                 case "Categoria":classePermissaoFlatCategoria(pf);break;
                 case "Pedido":classePermissaoFlatPedido(pf);break;
                 case "Produto":classePermissaoFlatProduto(pf);break;
-                case "Usuario":classePermissaoFlatUsuario(pf);	break;
-//                case "Relatório":classePermissaoFlatRelatorio(pf);break;
-                case "Empresa":classePermissaoFlatEmpresa(pf);	break;
+                case "Usuario":classePermissaoFlatUsuario(pf); break;
+                case "Empresa":classePermissaoFlatEmpresa(pf); break;
+                case "CondPagamento":classePermissaoFlatCondPagamento(pf); break;
+                case "TipoFrete":classePermissaoFlatTipoFrete(pf);break;
+                case "FormaPagamento":classePermissaoFlatFormaPagamento(pf);break;
+               // case "Relatório":classePermissaoFlatRelatorio(pf);break;
             }
 
         }
@@ -231,6 +234,33 @@ public class Usuario implements Serializable {
         if (pf.getPermission().getDelete()) {	Permissao d  = new Permissao(23,"D_USU");this.permissoes.add(d);};
         if (pf.getPermission().getRead())   {	Permissao r  = new Permissao(24,"R_USU");this.permissoes.add(r);};
         if (pf.getPermission().getStatus()) {	Permissao s  = new Permissao(25,"S_USU");this.permissoes.add(s);};
+    }
+
+    private void classePermissaoFlatCondPagamento(PermissaoFront pf) {
+
+        if (pf.getPermission().getCreate()) {	Permissao c  = new Permissao(42,"C_COND");this.permissoes.add(c);};
+        if (pf.getPermission().getUpdate()) {	Permissao u  = new Permissao(43,"U_COND");this.permissoes.add(u);};
+        if (pf.getPermission().getDelete()) {	Permissao d  = new Permissao(44,"D_COND");this.permissoes.add(d);};
+        if (pf.getPermission().getRead())   {	Permissao r  = new Permissao(45,"R_COND");this.permissoes.add(r);};
+        if (pf.getPermission().getStatus()) {	Permissao s  = new Permissao(46,"S_COND");this.permissoes.add(s);};
+    }
+
+    private void classePermissaoFlatTipoFrete(PermissaoFront pf) {
+
+        if (pf.getPermission().getCreate()) {	Permissao c  = new Permissao(47,"C_TIPF");this.permissoes.add(c);};
+        if (pf.getPermission().getUpdate()) {	Permissao u  = new Permissao(48,"U_TIPF");this.permissoes.add(u);};
+        if (pf.getPermission().getDelete()) {	Permissao d  = new Permissao(49,"D_TIPF");this.permissoes.add(d);};
+        if (pf.getPermission().getRead())   {	Permissao r  = new Permissao(50,"R_TIPF");this.permissoes.add(r);};
+        if (pf.getPermission().getStatus()) {	Permissao s  = new Permissao(51,"S_TIPF");this.permissoes.add(s);};
+    }
+
+    private void classePermissaoFlatFormaPagamento(PermissaoFront pf) {
+
+        if (pf.getPermission().getCreate()) {	Permissao c  = new Permissao(52,"C_FORMP");this.permissoes.add(c);};
+        if (pf.getPermission().getUpdate()) {	Permissao u  = new Permissao(53,"U_FORMP");this.permissoes.add(u);};
+        if (pf.getPermission().getDelete()) {	Permissao d  = new Permissao(54,"D_FORMP");this.permissoes.add(d);};
+        if (pf.getPermission().getRead())   {	Permissao r  = new Permissao(55,"R_FORMP");this.permissoes.add(r);};
+        if (pf.getPermission().getStatus()) {	Permissao s  = new Permissao(56,"S_FORMP");this.permissoes.add(s);};
     }
 //    private void classePermissaoFlatRelatorio(PermissaoFront pf) {
 //

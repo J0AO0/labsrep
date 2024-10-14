@@ -14,6 +14,7 @@ import com.mei.vendasapi.repository.EmpresaRepository;
 import com.mei.vendasapi.repository.filter.CategoriaFilter;
 import com.mei.vendasapi.repository.filter.EmpresaFilter;
 import com.mei.vendasapi.repository.filter.EmpresaFilter;
+import com.mei.vendasapi.security.resource.CheckSecurity;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -42,6 +43,7 @@ public class EmpresaResource {
     @Autowired
     private EmpresaRepository empRepo;
 
+    @CheckSecurity.Empresa.PodeConsultar
     @RequestMapping(value = "/empresapadrao",method = RequestMethod.GET)
     public ResponseEntity<?> lista() {
 
@@ -50,14 +52,14 @@ public class EmpresaResource {
         return ResponseEntity.ok(lista);
     }
 
-
+    @CheckSecurity.Empresa.PodeConsultar
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> buscarPorId(@PathVariable Integer id) {
         Empresa obj = empresaService.findPorId(id);
         return ResponseEntity.ok(obj);
     }
 
-
+    @CheckSecurity.Empresa.PodeCadastrar
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Empresa> criarEmpresa(@RequestBody EmpresaNewDTO objNewDTO) {
         Empresa novoObj = modelMapper.map(objNewDTO, Empresa.class);
@@ -69,7 +71,7 @@ public class EmpresaResource {
         return ResponseEntity.created(uri).body(novoObj);
     }
 
-
+    @CheckSecurity.Empresa.PodeAtualizar
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Empresa> update(@Valid @RequestBody EmpresaDTO obj, @PathVariable Integer id) {
         obj.setId(id);
@@ -80,6 +82,7 @@ public class EmpresaResource {
 
     }
 
+    @CheckSecurity.Empresa.PodeAlterarStatus
     @RequestMapping(value="/{id}/status",method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void inativar(@RequestBody Boolean obj,@PathVariable int id)	{
@@ -91,7 +94,8 @@ public class EmpresaResource {
         empresaService.delete(id);
         return ResponseEntity.noContent().build();
     }
-    
+
+    @CheckSecurity.Empresa.PodeConsultar
 	@RequestMapping(value = "/usuarios", method = RequestMethod.GET)
 	public ResponseEntity<List<EmpresaFlat>> findAllUsuario() {
 		
@@ -99,6 +103,7 @@ public class EmpresaResource {
 		return ResponseEntity.ok().body(list);
 	}
 
+    @CheckSecurity.Empresa.PodeConsultar
     @RequestMapping( method = RequestMethod.GET)
     public Page<EmpresaFlat> findAllPag(EmpresaFilter usuarioFilter, Pageable pageable) {
         Page<Empresa> usuarios = empRepo.filtrar(usuarioFilter, pageable);
@@ -106,6 +111,7 @@ public class EmpresaResource {
         return usuariosFlat;
     }
 
+    @CheckSecurity.Empresa.PodeConsultar
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     public ResponseEntity<Page<Empresa>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
                                                   @RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
@@ -114,7 +120,8 @@ public class EmpresaResource {
         Page<Empresa> list = empresaService.findPage(page, linesPerPage, orderBy, direction);
         return ResponseEntity.ok().body(list);
     }
-
+    
+//    @CheckSecurity.Produto.PodeAlterarStatus
 //    @RequestMapping(value = "/filtro", method = RequestMethod.GET)
 //    public Page<EmpresaFlat> findAllPag(EmpresaFilter produtoFilter, Pageable pageable) {
 //        Page<Empresa> prods = empRepo.filtrar(produtoFilter, pageable);
