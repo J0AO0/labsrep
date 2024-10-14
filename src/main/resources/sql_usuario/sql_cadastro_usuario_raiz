@@ -13,14 +13,14 @@ INSERT INTO usuario_empresa (id_usuario, id_empresa, empresapadrao, tenant_id) V
 INSERT INTO classepermissao (id, nome) VALUES (5, 'Usuario'), (7, 'Empresa'), (8, 'Pedido'), (9, 'Produto'), (10, 'Categoria'), (11, 'CondPagamento'), (12, 'TipoFrete'), (13, 'FormaPagamento');
 
 INSERT INTO permissao (id, descricao, classepermissao_id) VALUES
-(21, 'C_USU', NULL), (22, 'U_USU', NULL), (23, 'D_USU', NULL),(24, 'R_USU', NULL), (25, 'S_USU', NULL),
-(32, 'C_EMP', NULL),(33, 'U_EMP', NULL), (34, 'D_EMPD', NULL), (35, 'R_EMP', NULL), (36, 'S_EMP', NULL),
-(6, 'C_PED', NULL), (7, 'U_PED', NULL), (8, 'D_PED', NULL), (9, 'R_PED', NULL), (10, 'S_PED', NULL),
-(11, 'C_PROD', NULL), (12, 'U_PROD', NULL), (13, 'D_PROD', NULL), (14, 'R_PROD', NULL), (15, 'S_PROD', NULL),
-(37, 'C_CAT', NULL), (38, 'U_CAT', NULL), (39, 'D_CAT', NULL), (40, 'R_CAT', NULL), (41, 'S_CAT', NULL),
-(42, 'C_COND', NULL), (43, 'U_COND', NULL), (44, 'D_COND', NULL), (45, 'R_COND', NULL), (46, 'S_COND', NULL),
-(47, 'C_TIPF', NULL), (48, 'U_TIPF', NULL), (49, 'D_TIPF', NULL), (50, 'R_TIPF', NULL), (51, 'S_TIPF', NULL),
-(52, 'C_FORMP', NULL), (53, 'U_FORMP', NULL), (54, 'D_FORMP', NULL), (55, 'R_FORMP', NULL), (56, 'S_FORMP', NULL);
+(21, 'C_USU', 5), (22, 'U_USU', 5), (23, 'D_USU', 5),(24, 'R_USU', 5), (25, 'S_USU', 5),
+(32, 'C_EMP', 7),(33, 'U_EMP', 7), (34, 'D_EMPD', 7), (35, 'R_EMP', 7), (36, 'S_EMP', 7),
+(6, 'C_PED', 8), (7, 'U_PED', 8), (8, 'D_PED', 8), (9, 'R_PED', 8), (10, 'S_PED', 8),
+(11, 'C_PROD', 9), (12, 'U_PROD', 9), (13, 'D_PROD', 9), (14, 'R_PROD', 9), (15, 'S_PROD', 9),
+(37, 'C_CAT', 10), (38, 'U_CAT', 10), (39, 'D_CAT', 10), (40, 'R_CAT', 10), (41, 'S_CAT', 10),
+(42, 'C_COND', 11), (43, 'U_COND', 11), (44, 'D_COND', 11), (45, 'R_COND', 11), (46, 'S_COND', 11),
+(47, 'C_TIPF', 12), (48, 'U_TIPF', 12), (49, 'D_TIPF', 12), (50, 'R_TIPF', 12), (51, 'S_TIPF', 12),
+(52, 'C_FORMP', 13), (53, 'U_FORMP', 13), (54, 'D_FORMP', 13), (55, 'R_FORMP', 13), (56, 'S_FORMP', 13);
 
 INSERT INTO usuario_permissao (id_usuario, id_permissao) VALUES
 (1, 21), (1, 22), (1, 23), (1, 24), (1, 25), (1, 32), (1, 33), (1, 34), (1, 35), (1, 36),
