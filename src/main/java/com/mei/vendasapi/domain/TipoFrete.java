@@ -74,6 +74,7 @@ public class TipoFrete {
     public TipoFrete(@Valid TipoFreteNewDTO obj) {
         this.id = obj.getId();
         this.descricao = obj.getDescricao();
+        this.status = obj.getStatus();
     }
 
     @JsonIgnore

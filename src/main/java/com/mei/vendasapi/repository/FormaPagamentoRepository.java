@@ -10,11 +10,17 @@ import java.util.List;
 @Repository
 public interface FormaPagamentoRepository extends JpaRepository<FormaPagamento, Integer> {
 
-    @Query(value = "select * from forma_pagamento where id = ? and tenant_id = ?", nativeQuery = true)
+    @Query(value = "select * from forma_pagamento where id = ?", nativeQuery = true)
     FormaPagamento findPorId(Integer id);
 
-    @Query(value = "select * from forma_pagamento ", nativeQuery = true)
+    @Query(value = "select * from forma_pagamento where status = 1", nativeQuery = true)
     List<FormaPagamento> findAllForm();
 
     FormaPagamento findByDescricao(String descricao);
+
+    @Query(value = "select * from forma_pagamento where status = 0 and  tenant_id = ?", nativeQuery = true)
+	List<FormaPagamento> findAllSqlInativo(Integer buscarOuFalharInt);
+    
+    @Query(value = "select * from forma_pagamento where status = 1", nativeQuery = true)
+	List<FormaPagamento> findAllSql(Integer buscarOuFalharInt);
 }

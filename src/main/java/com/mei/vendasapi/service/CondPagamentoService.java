@@ -1,9 +1,11 @@
 package com.mei.vendasapi.service;
 
 import com.mei.vendasapi.domain.CondPagamento;
+import com.mei.vendasapi.domain.FormaPagamento;
 import com.mei.vendasapi.domain.LogSistema;
 import com.mei.vendasapi.domain.dto.CondPagamentoNewDTO;
 import com.mei.vendasapi.domain.dto.flat.CondPagamentoFlat;
+import com.mei.vendasapi.domain.dto.flat.FormaPagamentoFlat;
 import com.mei.vendasapi.repository.CondPagamentoRepository;
 import com.mei.vendasapi.repository.LogSistemaRepository;
 import com.mei.vendasapi.service.exception.EntidadeNaoEncontradaExcepition;
@@ -32,9 +34,16 @@ public class CondPagamentoService {
     @Autowired
     private LogSistemaService log;
 
-    public Page<CondPagamento> findAll(Pageable pageable) {
-        return repo.findAll(pageable);
-    }
+    public List<CondPagamentoFlat> findAllSql() {
+		List<CondPagamento> operadores = repo.findAllSql(tenantUsuario.buscarOuFalharInt());
+		List<CondPagamentoFlat> operadorFlat = new ArrayList<>();
+		for (CondPagamento obj : operadores) {
+			CondPagamentoFlat opeFlat = new CondPagamentoFlat(obj);
+			operadorFlat.add(opeFlat);
+		}
+		return operadorFlat;
+	}
+
 
     public CondPagamento findPorId(Integer id) {
         CondPagamento cat = repo.findPorId(id);
@@ -49,9 +58,9 @@ public class CondPagamentoService {
     }
 
     @Transactional
-    public CondPagamento insert(CondPagamentoNewDTO obj){
+    public CondPagamento insert(CondPagamentoFlat obj){
         obj.setId(null);
-        CondPagamento resEst = new CondPagamento(obj);
+        CondPagamento resEst = new CondPagamento();
         resEst.setDescricao(obj.getDescricao());
         resEst.setStatus(obj.getStatus());
         resEst.setTenant(tenantUsuario.buscarOuFalhar());
@@ -116,4 +125,15 @@ public class CondPagamentoService {
         repolog.save(logsistema);
 
     }
+
+	public List<CondPagamentoFlat> findAllSqlInativo() {
+		List<CondPagamentoFlat> convsFlat = new ArrayList<CondPagamentoFlat>();
+		List<CondPagamento> convs = repo.findAllSqlInativo(tenantUsuario.buscarOuFalharInt());
+		for (CondPagamento conv :convs ) {
+			CondPagamentoFlat convFlat = new CondPagamentoFlat(conv);  
+		     convsFlat.add(convFlat);
+		}
+		return convsFlat;
+
+	}
 }

@@ -7,6 +7,8 @@ import com.mei.vendasapi.domain.dto.CategoriaNewDTO;
 import com.mei.vendasapi.domain.dto.FormaPagamentoDTO;
 import com.mei.vendasapi.domain.dto.FormaPagamentoNewDTO;
 import com.mei.vendasapi.domain.dto.flat.CategoriaFlat;
+import com.mei.vendasapi.domain.dto.flat.CondPagamentoFlat;
+import com.mei.vendasapi.domain.dto.flat.FormaPagamentoFlat;
 import com.mei.vendasapi.repository.FormaPagamentoRepository;
 import com.mei.vendasapi.repository.filter.CategoriaFilter;
 import com.mei.vendasapi.service.FormaPagamentoService;
@@ -27,63 +29,66 @@ import java.util.List;
 @RequestMapping("/formapagamentos")
 public class FormaPagamentoResorce {
 
-    @Autowired
-    public FormaPagamentoRepository formaPagamentoRepository;
+	@Autowired
+	public FormaPagamentoRepository formaPagamentoRepository;
 
-    @Autowired
-    public FormaPagamentoService formaPagamentoService;
+	@Autowired
+	public FormaPagamentoService formaPagamentoService;
 
-    @Autowired
-    private ModelMapper modelMapper;
+	@Autowired
+	private ModelMapper modelMapper;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<?> lista() {
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<?> lista() {
 
-        List<FormaPagamento> lista =  formaPagamentoService.lista();
-        return ResponseEntity.ok(lista);
-    }
+		List<FormaPagamentoFlat> list = formaPagamentoService.findAllSql();
 
+		return ResponseEntity.ok(list);
+	}
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> buscarPorId(@PathVariable Integer id) {
-        FormaPagamento obj = formaPagamentoService.buscarOuFalhar(id);
-        return ResponseEntity.ok(obj);
-    }
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public ResponseEntity<?> buscarPorId(@PathVariable Integer id) {
+		FormaPagamento obj = formaPagamentoService.buscarOuFalhar(id);
+		return ResponseEntity.ok(obj);
+	}
 
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<FormaPagamento> criar(@Valid @RequestBody FormaPagamentoFlat objNewDTO) {
+		FormaPagamento novoObj = modelMapper.map(objNewDTO, FormaPagamento.class);
+		FormaPagamento objNovo = formaPagamentoService.insert(objNewDTO);
 
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<FormaPagamento> criar(@Valid @RequestBody FormaPagamentoNewDTO objNewDTO) {
-        FormaPagamento novoObj = modelMapper.map(objNewDTO, FormaPagamento.class);
-        FormaPagamento objNovo = formaPagamentoService.insert(objNewDTO);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(objNovo.getId())
+				.toUri();
 
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
-                path("/{id}").buildAndExpand(objNovo.getId()).toUri();
+		return ResponseEntity.created(uri).body(novoObj);
+	}
 
-        return ResponseEntity.created(uri).body(novoObj);
-    }
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<FormaPagamento> update(@Valid @RequestBody FormaPagamentoDTO obj, @PathVariable Integer id) {
+		obj.setId(id);
+		FormaPagamento novoobj = new FormaPagamento(obj);
+		FormaPagamento obj1 = formaPagamentoService.atualiza(novoobj);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj1.getId()).toUri();
+		return ResponseEntity.created(uri).body(obj1);
 
+	}
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<FormaPagamento> update(@Valid @RequestBody FormaPagamentoDTO obj, @PathVariable Integer id) {
-        obj.setId(id);
-        FormaPagamento novoobj = new FormaPagamento(obj);
-        FormaPagamento obj1 = formaPagamentoService.atualiza(novoobj);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
-                path("/{id}").buildAndExpand(obj1.getId()).toUri();
-        return ResponseEntity.created(uri).body(obj1);
+	@RequestMapping(value = "/{id}/status", method = RequestMethod.PUT)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void inativar(@RequestBody Boolean obj, @PathVariable int id) {
+		formaPagamentoService.status(obj, id);
+	}
 
-    }
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
+		formaPagamentoService.delete(id);
+		return ResponseEntity.noContent().build();
+	}
 
-    @RequestMapping(value ="/{id}/status",method = RequestMethod.PUT)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void inativar(@RequestBody Boolean obj,@PathVariable int id)	{
-        formaPagamentoService.status(obj,id);
-    }
+	@RequestMapping(value = "/inativos", method = RequestMethod.GET)
+	public ResponseEntity<List<FormaPagamentoFlat>> findAllInativo() {
+		List<FormaPagamentoFlat> list = formaPagamentoService.findAllSqlInativo();
+		return ResponseEntity.ok().body(list);
+	}
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        formaPagamentoService.delete(id);
-        return ResponseEntity.noContent().build();
-    }
-    
 }

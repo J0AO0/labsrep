@@ -1,8 +1,10 @@
 package com.mei.vendasapi.service;
 
 import com.mei.vendasapi.domain.TipoFrete;
+import com.mei.vendasapi.domain.FormaPagamento;
 import com.mei.vendasapi.domain.LogSistema;
 import com.mei.vendasapi.domain.dto.TipoFreteNewDTO;
+import com.mei.vendasapi.domain.dto.flat.FormaPagamentoFlat;
 import com.mei.vendasapi.domain.dto.flat.TipoFreteFlat;
 import com.mei.vendasapi.repository.TipoFreteRepository;
 import com.mei.vendasapi.repository.LogSistemaRepository;
@@ -34,9 +36,15 @@ public class TipoFreteService {
     @Autowired
     private LogSistemaService log;
 
-    public Page<TipoFrete> findAll(Pageable pageable) {
-        return repo.findAll(pageable);
-    }
+	public List<TipoFreteFlat> findAllSql() {
+		List<TipoFrete> operadores = repo.findAllSql(tenantUsuario.buscarOuFalharInt());
+		List<TipoFreteFlat> operadorFlat = new ArrayList<>();
+		for (TipoFrete obj : operadores) {
+			TipoFreteFlat opeFlat = new TipoFreteFlat(obj);
+			operadorFlat.add(opeFlat);
+		}
+		return operadorFlat;
+	}
 
     public TipoFrete findPorId(Integer id) {
         TipoFrete cat = repo.findPorId(id);
@@ -119,4 +127,15 @@ public class TipoFreteService {
 
     }
 
+    
+	public List<TipoFreteFlat> findAllSqlInativo() {
+		List<TipoFreteFlat> convsFlat = new ArrayList<TipoFreteFlat>();
+		List<TipoFrete> convs = repo.findAllSqlInativo(tenantUsuario.buscarOuFalharInt());
+		for (TipoFrete conv :convs ) {
+			TipoFreteFlat convFlat = new TipoFreteFlat(conv);  
+		     convsFlat.add(convFlat);
+		}
+		return convsFlat;
+
+	}
 }

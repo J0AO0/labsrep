@@ -1,11 +1,14 @@
 package com.mei.vendasapi.service;
 
 import com.mei.vendasapi.domain.Categoria;
+import com.mei.vendasapi.domain.CondPagamento;
 import com.mei.vendasapi.domain.FormaPagamento;
 import com.mei.vendasapi.domain.LogSistema;
 import com.mei.vendasapi.domain.dto.CategoriaNewDTO;
 import com.mei.vendasapi.domain.dto.FormaPagamentoNewDTO;
 import com.mei.vendasapi.domain.dto.flat.CategoriaFlat;
+import com.mei.vendasapi.domain.dto.flat.CondPagamentoFlat;
+import com.mei.vendasapi.domain.dto.flat.FormaPagamentoFlat;
 import com.mei.vendasapi.repository.FormaPagamentoRepository;
 import com.mei.vendasapi.repository.LogSistemaRepository;
 import com.mei.vendasapi.service.exception.EntidadeNaoEncontradaExcepition;
@@ -35,16 +38,23 @@ public class FormaPagamentoService {
 
     @Autowired
     private LogSistemaService log;
-
-    public List<FormaPagamento> listar() {
-        return formaPagamentoRepository.findAll();
-    }
+    
+    
+	public List<FormaPagamentoFlat> findAllSql() {
+		List<FormaPagamento> operadores = formaPagamentoRepository.findAllSql(tenantUsuario.buscarOuFalharInt());
+		List<FormaPagamentoFlat> operadorFlat = new ArrayList<>();
+		for (FormaPagamento obj : operadores) {
+			FormaPagamentoFlat opeFlat = new FormaPagamentoFlat(obj);
+			operadorFlat.add(opeFlat);
+		}
+		return operadorFlat;
+	}
 
 
     @Transactional
-    public FormaPagamento insert(FormaPagamentoNewDTO obj){
+    public FormaPagamento insert(FormaPagamentoFlat obj){
         obj.setId(null);
-        FormaPagamento resEst = new FormaPagamento();
+        FormaPagamento  resEst = new FormaPagamento();
         resEst.setDescricao(obj.getDescricao());
         resEst.setStatus(obj.getStatus());
         resEst.setTenant(tenantUsuario.buscarOuFalhar());
@@ -96,4 +106,15 @@ public class FormaPagamentoService {
         repolog.save(logsistema);
 
     }
+    
+	public List<FormaPagamentoFlat> findAllSqlInativo() {
+		List<FormaPagamentoFlat> convsFlat = new ArrayList<FormaPagamentoFlat>();
+		List<FormaPagamento> convs = formaPagamentoRepository.findAllSqlInativo(tenantUsuario.buscarOuFalharInt());
+		for (FormaPagamento conv :convs ) {
+			FormaPagamentoFlat convFlat = new FormaPagamentoFlat(conv);  
+		     convsFlat.add(convFlat);
+		}
+		return convsFlat;
+
+	}
 }

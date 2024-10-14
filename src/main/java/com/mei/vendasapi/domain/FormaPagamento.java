@@ -2,6 +2,9 @@ package com.mei.vendasapi.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mei.vendasapi.domain.dto.FormaPagamentoDTO;
+import com.mei.vendasapi.domain.dto.FormaPagamentoNewDTO;
+import com.mei.vendasapi.domain.dto.flat.FormaPagamentoFlat;
+
 import org.jfree.util.Log;
 
 import javax.persistence.*;
@@ -27,13 +30,31 @@ public class FormaPagamento {
 
     public FormaPagamento() {}
 
-    public FormaPagamento(Integer id, String descricao, Boolean status, Tenant tenant) {  }
+    
 
-    public FormaPagamento(@Valid FormaPagamentoDTO obj) {
+    public FormaPagamento(Integer id, String descricao, Boolean status, Tenant tenant, List<LogSistema> logs) {
+		super();
+		this.id = id;
+		this.descricao = descricao;
+		this.status = status;
+		this.tenant = tenant;
+		this.logs = logs;
+	}
+
+
+
+	public FormaPagamento(@Valid FormaPagamentoDTO obj) {
         this.id = obj.getId();
         this.descricao = obj.getDescricao();
         this.status = obj.getStatus();
     }
+    
+    public FormaPagamento(@Valid FormaPagamentoNewDTO obj) {
+    	this.id = obj.getId();
+    	this.descricao = obj.getDescricao();
+    	this.status = obj.getStatus();
+    }
+    
 
     public Integer getId() {
         return id;

@@ -3,6 +3,8 @@ package com.mei.vendasapi.resource;
 import com.mei.vendasapi.domain.TipoFrete;
 import com.mei.vendasapi.domain.dto.TipoFreteDTO;
 import com.mei.vendasapi.domain.dto.TipoFreteNewDTO;
+import com.mei.vendasapi.domain.dto.flat.CondPagamentoFlat;
+import com.mei.vendasapi.domain.dto.flat.FormaPagamentoFlat;
 import com.mei.vendasapi.domain.dto.flat.TipoFreteFlat;
 import com.mei.vendasapi.repository.TipoFreteRepository;
 import com.mei.vendasapi.repository.TipoFreteRepository;
@@ -32,14 +34,12 @@ public class TipoFreteResource {
     @Autowired
     private ModelMapper modelMapper;
 
-    @Autowired
-    private TipoFreteRepository tipRepo;
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> lista() {
 
-        List<TipoFrete> lista =  tipoFreteService.lista();
-        return ResponseEntity.ok(lista);
+    	List<TipoFreteFlat> list = tipoFreteService.findAllSql();
+        return ResponseEntity.ok(list);
     }
 
 
@@ -86,4 +86,10 @@ public class TipoFreteResource {
         return ResponseEntity.noContent().build();
     }
     
+    
+	@RequestMapping(value = "/inativos", method = RequestMethod.GET)
+	public ResponseEntity<List<TipoFreteFlat>> findAllInativo() {
+		List<TipoFreteFlat> list = tipoFreteService.findAllSqlInativo();
+		return ResponseEntity.ok().body(list);
+	}
 }

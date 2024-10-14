@@ -70,11 +70,13 @@ public class CondPagamento {
     public CondPagamento(CondPagamentoDTO obj){
         this.id = obj.getId();
         this.descricao = obj.getDescricao();
+        this.status = obj.getStatus();
     }
 
     public CondPagamento(@Valid CondPagamentoNewDTO obj){
         this.id = obj.getId();
         this.descricao = obj.getDescricao();
+        this.status = obj.getStatus();
         
     }
 

@@ -1,6 +1,7 @@
 package com.mei.vendasapi.domain.dto.flat;
 
 import com.mei.vendasapi.domain.CondPagamento;
+import com.mei.vendasapi.domain.FormaPagamento;
 
 import java.time.OffsetDateTime;
 
@@ -36,14 +37,50 @@ public class CondPagamentoFlat {
     public void setStatus(Boolean status) {
         this.status = status;
     }
+    
 
-    public CondPagamentoFlat(Integer id, String descricao, Boolean status) {
-        this.id = id;
-        this.descricao = descricao;
-        this.status = status;
-    }
+    public OffsetDateTime getDatagravacao() {
+		return datagravacao;
+	}
 
-    public CondPagamentoFlat(CondPagamento condPagamento, String ok) {
+	public void setDatagravacao(OffsetDateTime datagravacao) {
+		this.datagravacao = datagravacao;
+	}
+
+	public String getEmailusuario() {
+		return emailusuario;
+	}
+
+	public void setEmailusuario(String emailusuario) {
+		this.emailusuario = emailusuario;
+	}
+
+	public String getStatusPedido() {
+		return statusPedido;
+	}
+
+	public void setStatusPedido(String statusPedido) {
+		this.statusPedido = statusPedido;
+	}
+
+
+
+    public CondPagamentoFlat() {
+		super();
+	}
+
+	public CondPagamentoFlat(Integer id, String descricao, Boolean status, OffsetDateTime datagravacao,
+			String emailusuario, String statusPedido) {
+		super();
+		this.id = id;
+		this.descricao = descricao;
+		this.status = status;
+		this.datagravacao = datagravacao;
+		this.emailusuario = emailusuario;
+		this.statusPedido = statusPedido;
+	}
+
+	public CondPagamentoFlat(CondPagamento condPagamento, String ok) {
         this.id = condPagamento.getId();
         this.descricao = condPagamento.getDescricao();
         this.datagravacao = condPagamento.getLogs().getDatagravacao();
@@ -58,4 +95,6 @@ public class CondPagamentoFlat {
         this.datagravacao = cat.getLogs().getDatagravacao();
         this.emailusuario = cat.getLogs().getEmailUsuario();
     }
+
+
 }
