@@ -1,0 +1,1 @@
+ALTER TABLE tipo_pedido ADD COLUMN status BOOLEAN;

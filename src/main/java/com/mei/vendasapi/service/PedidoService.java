@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import com.mei.vendasapi.domain.Cliente;
 import com.mei.vendasapi.domain.Pedido;
+import com.mei.vendasapi.domain.TipoFrete;
+import com.mei.vendasapi.domain.TipoPedido;
 import com.mei.vendasapi.domain.dto.PedidoDTO;
 import com.mei.vendasapi.domain.dto.PedidoNewDTO;
 import com.mei.vendasapi.repository.ClienteRepository;
@@ -43,6 +45,11 @@ public class PedidoService {
         Pedido resEst = new Pedido();
         Cliente c = obj.getCliente();
         resEst.setCliente(c);
+        TipoFrete f  = obj.getTipoFrete();
+        resEst.setTipoFrete(f);
+        TipoPedido p = obj.getTipoPedido();
+        resEst.setTipoPedido(p);
+        
         return repo.save(resEst);
     }
 

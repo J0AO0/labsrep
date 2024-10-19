@@ -1,15 +1,21 @@
 package com.mei.vendasapi.service;
 
 import com.mei.vendasapi.domain.TipoPedido;
+import com.mei.vendasapi.domain.FormaPagamento;
 import com.mei.vendasapi.domain.Produto;
 import com.mei.vendasapi.domain.dto.TipoPedidoDTO;
 import com.mei.vendasapi.domain.dto.TipoPedidoNewDTO;
+import com.mei.vendasapi.domain.dto.flat.FormaPagamentoFlat;
+import com.mei.vendasapi.domain.dto.flat.TipoPedidoFlat;
 import com.mei.vendasapi.domain.dto.ProdutoDTO;
 import com.mei.vendasapi.domain.dto.ProdutoNewDTO;
 import com.mei.vendasapi.repository.TipoPedidoRepository;
+import com.mei.vendasapi.repository.LogSistemaRepository;
 import com.mei.vendasapi.repository.ProdutoRepository;
 import com.mei.vendasapi.service.exception.EntidadeEmUsoException;
 import com.mei.vendasapi.service.exception.EntidadeNaoEncontradaExcepition;
+import com.mei.vendasapi.service.util.Tenantuser;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -19,6 +25,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,11 +34,26 @@ public class TipoPedidoService {
 
     @Autowired
     private TipoPedidoRepository repo;
+    
+    @Autowired
+    private Tenantuser tenantUsuario;
 
-    public Page<TipoPedido> findAll(Pageable pageable) {
-        return repo.findAll(pageable);
-    }
+    @Autowired
+    private LogSistemaRepository repolog;
 
+    @Autowired
+    private LogSistemaService log;
+
+
+	public List<TipoPedidoFlat> findAllSql() {
+		List<TipoPedido> operadores = repo.findAllSql(tenantUsuario.buscarOuFalharInt());
+		List<TipoPedidoFlat> operadorFlat = new ArrayList<>();
+		for (TipoPedido obj : operadores) {
+			TipoPedidoFlat opeFlat = new TipoPedidoFlat(obj);
+			operadorFlat.add(opeFlat);
+		}
+		return operadorFlat;
+	}
     public TipoPedido findPorId(Integer id) {
         TipoPedido cat = repo.findPorId(id);
 

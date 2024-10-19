@@ -17,4 +17,8 @@ public interface TipoPedidoRepository extends JpaRepository<TipoPedido, Integer>
     TipoPedido findPorId(Integer id);
 
     TipoPedido findByNome(String name);
+    
+    
+    @Query(value = "SELECT * FROM tipo_pedido where status = 1 ", nativeQuery = true)
+	List<TipoPedido> findAllSql(Integer buscarOuFalharInt);
 }

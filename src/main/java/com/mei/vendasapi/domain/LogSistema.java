@@ -114,7 +114,8 @@ public class LogSistema implements Serializable {
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "categoria_id", nullable = false)
-	private Categoria categoria;@JsonIgnore
+	private Categoria categoria;
+	@JsonIgnore
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "forma_pagamento_id", nullable = false)
@@ -130,7 +131,10 @@ public class LogSistema implements Serializable {
 	@JsonIgnore
 	private CondPagamento condPagamento;
 
-
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "tipo_pedido_id", nullable = false)
+	@JsonIgnore
+	private TipoPedido tipopedido;
 
 	public LogSistema() {
 
@@ -192,9 +196,13 @@ public class LogSistema implements Serializable {
 		this.cliente = cliente;
 	}
 
-	public FormaPagamento getFormaPagamento() {return formaPagamento;}
+	public FormaPagamento getFormaPagamento() {
+		return formaPagamento;
+	}
 
-	public void setFormaPagamento(FormaPagamento formaPagamento) {this.formaPagamento = formaPagamento;}
+	public void setFormaPagamento(FormaPagamento formaPagamento) {
+		this.formaPagamento = formaPagamento;
+	}
 
 	public TipoFrete getTipoFrete() {
 		return tipoFrete;
@@ -212,8 +220,16 @@ public class LogSistema implements Serializable {
 		this.condPagamento = condPagamento;
 	}
 
+	public TipoPedido getTipopedido() {
+		return tipopedido;
+	}
+
+	public void setTipopedido(TipoPedido tipopedido) {
+		this.tipopedido = tipopedido;
+	}
+
 	public LogSistema(Integer id, String usuarioLogado, String comando, OffsetDateTime datagravacao, Categoria conv,
-					  Tenant tenant) {
+			Tenant tenant) {
 		this.id = id;
 		this.emailUsuario = usuarioLogado;
 		this.comando = comando;
@@ -269,7 +285,8 @@ public class LogSistema implements Serializable {
 		this.status = true;
 	}
 
-	public LogSistema(Integer id, String usuarioLogado, String comando, OffsetDateTime datagravacao, TipoFrete tipoFrete) {
+	public LogSistema(Integer id, String usuarioLogado, String comando, OffsetDateTime datagravacao,
+			TipoFrete tipoFrete) {
 		this.id = id;
 		this.emailUsuario = usuarioLogado;
 		this.comando = comando;
@@ -278,7 +295,8 @@ public class LogSistema implements Serializable {
 		this.status = true;
 	}
 
-	public LogSistema(Integer id, String usuarioLogado, String comando, OffsetDateTime datagravacao, FormaPagamento formaPagamento) {
+	public LogSistema(Integer id, String usuarioLogado, String comando, OffsetDateTime datagravacao,
+			FormaPagamento formaPagamento) {
 		this.id = id;
 		this.emailUsuario = usuarioLogado;
 		this.comando = comando;
@@ -286,12 +304,24 @@ public class LogSistema implements Serializable {
 		this.formaPagamento = formaPagamento;
 		this.status = true;
 	}
-	public LogSistema(Integer id, String usuarioLogado, String comando, OffsetDateTime datagravacao, CondPagamento condPagamento) {
+
+	public LogSistema(Integer id, String usuarioLogado, String comando, OffsetDateTime datagravacao,
+			CondPagamento condPagamento) {
 		this.id = id;
 		this.emailUsuario = usuarioLogado;
 		this.comando = comando;
 		this.datagravacao = datagravacao;
 		this.condPagamento = condPagamento;
+		this.status = true;
+	}
+
+	public LogSistema(Integer id, String usuarioLogado, String comando, OffsetDateTime datagravacao,
+			TipoPedido tipopedido) {
+		this.id = id;
+		this.emailUsuario = usuarioLogado;
+		this.comando = comando;
+		this.datagravacao = datagravacao;
+		this.tipopedido = tipopedido;
 		this.status = true;
 	}
 

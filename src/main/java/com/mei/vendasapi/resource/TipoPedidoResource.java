@@ -3,6 +3,9 @@ package com.mei.vendasapi.resource;
 import com.mei.vendasapi.domain.TipoPedido;
 import com.mei.vendasapi.domain.dto.TipoPedidoDTO;
 import com.mei.vendasapi.domain.dto.TipoPedidoNewDTO;
+import com.mei.vendasapi.domain.dto.flat.CondPagamentoFlat;
+import com.mei.vendasapi.domain.dto.flat.TipoPedidoFlat;
+import com.mei.vendasapi.security.resource.CheckSecurity;
 import com.mei.vendasapi.service.TipoPedidoService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +29,9 @@ public class TipoPedidoResource {
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> lista() {
+    	List<TipoPedidoFlat> list = tipoPedidoService.findAllSql();
 
-        List<TipoPedido> lista =  tipoPedidoService.lista();
-
-        return ResponseEntity.ok(lista);
+        return ResponseEntity.ok(list);
     }
 
 
