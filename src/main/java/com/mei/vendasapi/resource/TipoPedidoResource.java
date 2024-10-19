@@ -16,7 +16,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/tipoPedido")
+@RequestMapping(value = "/tipoPedidos")
 public class TipoPedidoResource {
     @Autowired
     private TipoPedidoService tipoPedidoService;

@@ -17,6 +17,8 @@ public class ProdutoFlat {
     private String qrCode;
     private OffsetDateTime datagravacao;
     private String emailusuario;
+    
+    private String sku;
 
     public Integer getId() {
         return id;
@@ -90,7 +92,8 @@ public class ProdutoFlat {
         this.emailusuario = emailusuario;
     }
 
-    public ProdutoFlat(Integer id, String name, Categoria categoria, BigDecimal preco, String descricao, Boolean status, String qrCode, OffsetDateTime datagravacao, String emailusuario) {
+    public ProdutoFlat(Integer id, String name, Categoria categoria, BigDecimal preco, String descricao, Boolean status, String qrCode, OffsetDateTime datagravacao, String emailusuario,
+    		String sku) {
         this.id = id;
         this.name = name;
         this.categoria = categoria;
@@ -100,6 +103,7 @@ public class ProdutoFlat {
         this.qrCode = qrCode;
         this.datagravacao = datagravacao;
         this.emailusuario = emailusuario;
+        this.sku = sku;
     }
     public ProdutoFlat() {
     }
@@ -114,6 +118,7 @@ public class ProdutoFlat {
         this.qrCode = prod.getQrCode();
         this.datagravacao = prod.getLogs().getDatagravacao();
         this.emailusuario = prod.getLogs().getEmailUsuario();
+        this.sku = prod.getSku();
     }
 
     public ProdutoFlat(Produto prod){
@@ -126,5 +131,6 @@ public class ProdutoFlat {
         this.qrCode = prod.getQrCode();
         this.datagravacao = prod.getLogs().getDatagravacao();
         this.emailusuario = prod.getLogs().getEmailUsuario();
+        this.sku = prod.getSku();
     }
 }

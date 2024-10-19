@@ -16,30 +16,29 @@ import javax.validation.Valid;
 
 @Entity
 public class Produto implements Serializable {
+	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 
-	public static final Long seralVersionUID = 123456L;
+	private String name;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Integer id;
-    
-    private String name;
-    
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    private Categoria categoria;
-    
-    private BigDecimal preco;
-    
-    private String descricao;
-    
-    private Boolean status;
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	private Categoria categoria;
+
+	private BigDecimal preco;
+
+	private String descricao;
+
+	private Boolean status;
 
 	private String qrCode;
 
-    @ManyToOne
-    private Tenant tenant;
+	private String sku;
+
+	@ManyToOne
+	private Tenant tenant;
 
 	public Integer getId() {
 		return id;
@@ -105,7 +104,8 @@ public class Produto implements Serializable {
 		this.tenant = tenant;
 	}
 
-	public Produto(Integer id, String name, Categoria categoria, BigDecimal preco, String descricao, Boolean status, Tenant tenant, String qrCode) {
+	public Produto(Integer id, String name, Categoria categoria, BigDecimal preco, String descricao, Boolean status,
+			Tenant tenant, String qrCode, String sku) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -115,13 +115,14 @@ public class Produto implements Serializable {
 		this.status = status;
 		this.tenant = tenant;
 		this.qrCode = qrCode;
+		this.sku = sku;
 	}
 
 	public Produto() {
 		super();
 	}
 
-	public Produto(@Valid ProdutoDTO obj){
+	public Produto(@Valid ProdutoDTO obj) {
 		this.id = obj.getId();
 		this.name = obj.getName();
 		this.categoria = obj.getCategoria();
@@ -130,7 +131,7 @@ public class Produto implements Serializable {
 		this.qrCode = obj.getQrCode();
 	}
 
-	public Produto(@Valid ProdutoNewDTO obj){
+	public Produto(@Valid ProdutoNewDTO obj) {
 		this.id = obj.getId();
 		this.name = obj.getName();
 		this.categoria = obj.getCategoria();
@@ -144,6 +145,7 @@ public class Produto implements Serializable {
 	public String toString() {
 		return "Produto [id=" + id + ", descricao=" + descricao + ", status=" + status + "]";
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -151,6 +153,7 @@ public class Produto implements Serializable {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -186,9 +189,9 @@ public class Produto implements Serializable {
 				indice = i;
 			}
 		}
-		if (indice==-1) {
+		if (indice == -1) {
 			return ultimo;
-		}else {
+		} else {
 			return ultimo = logs.get(indice);
 		}
 
@@ -196,6 +199,14 @@ public class Produto implements Serializable {
 
 	public void setLogs(List<LogSistema> logs) {
 		this.logs = logs;
+	}
+
+	public String getSku() {
+		return sku;
+	}
+
+	public void setSku(String sku) {
+		this.sku = sku;
 	}
 
 }

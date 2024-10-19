@@ -47,9 +47,27 @@ public class EmpresaService {
         Empresa cat = repo.findPorId(id);
         return cat;
     }
-
+    
+    @Transactional
     public Empresa insert(EmpresaNewDTO obj){
         Empresa resEst = new Empresa(obj);
+        resEst.setEmail(obj.getEmail());
+        resEst.setTelefone(obj.getTelefone());
+        resEst.setStatus(obj.getStatus());
+        resEst.setBairro(obj.getBairro());
+        resEst.setCidade(obj.getCidade());
+        resEst.setComplemento(obj.getComplemento());
+        resEst.setBairro(obj.getBairro());
+        resEst.setCpfoucnpj(obj.getCpfoucnpj()); //
+        resEst.setLogradouro(obj.getLogradouro());
+        resEst.setNomecontato(obj.getNomecontato());
+        resEst.setNumero(obj.getNumero());
+        resEst.setRazaosocial(obj.getRazaosocial());
+        resEst.setWhats(obj.getWhats());
+        resEst.setValor(obj.getValor());
+        resEst.setTelefone(obj.getTelefone());
+        resEst.setStatus(obj.getStatus());
+        resEst.setNaturezapessoa(obj.getNaturezapessoa());
         logEmpresa(resEst, "insert");
         return repo.save(resEst);
     }

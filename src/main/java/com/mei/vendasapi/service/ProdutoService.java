@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import com.mei.vendasapi.domain.Empresa;
-import com.mei.vendasapi.domain.dto.flat.EmpresaFlat;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -65,6 +63,7 @@ public class ProdutoService {
         resEst.setTenant(tenantUsuario.buscarOuFalhar());
         Categoria c = obj.getCategoria();
         resEst.setCategoria(c);
+        resEst.setSku(obj.getSku());
         resEst.setStatus(obj.getStatus());
         repo.save(resEst);
         logProduto(resEst, "Insert");

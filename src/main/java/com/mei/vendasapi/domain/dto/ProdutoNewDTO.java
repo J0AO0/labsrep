@@ -14,6 +14,7 @@ public class ProdutoNewDTO {
 	private String descricao;
 	private Boolean status = Boolean.TRUE;
 	private String qrCode;
+	private String sku;
 
 	public Integer getId() {
 		return id;
@@ -38,7 +39,6 @@ public class ProdutoNewDTO {
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
-
 
 	public String getDescricao() {
 		return descricao;
@@ -68,8 +68,20 @@ public class ProdutoNewDTO {
 		return preco;
 	}
 
+	public String getSku() {
+		return sku;
+	}
+
+	public void setSku(String sku) {
+		this.sku = sku;
+	}
+
+	public void setPreco(BigDecimal preco) {
+		this.preco = preco;
+	}
+
 	public ProdutoNewDTO(Integer id, String name, Categoria categoria, BigDecimal preco, String descricao,
-			Boolean status, String qrCode) {
+			Boolean status, String qrCode, String sku) {
 		this.id = id;
 		this.name = name;
 		this.categoria = categoria;
@@ -77,10 +89,8 @@ public class ProdutoNewDTO {
 		this.descricao = descricao;
 		this.status = status;
 		this.qrCode = qrCode;
+		this.sku = sku;
 	}
-
-
-
 
 	public ProdutoNewDTO() {
 	}

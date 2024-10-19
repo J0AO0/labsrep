@@ -47,7 +47,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 		config.setAllowedHeaders(Arrays.asList("Authorization","Content-Type","Accept"));
 		config.addAllowedMethod("*");
 		config.setMaxAge(3600L);
-		config.setAllowedOrigins(Arrays.asList("http://localhost:4200","https://app-hml.vendasmei.com.br","https://app.vendasmei.com.br"));
+		config.setAllowedOrigins(Arrays.asList("http://localhost:4200","https://app-hml.vendasmei.com.br","https://app.vendasmei.com.br","http://192.168.0.134:4200"));
 //		config.setAllowedOrigins(Arrays.asList("*"));
 		
 		
